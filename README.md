@@ -24,17 +24,18 @@ After setup restart the agent or start a new session so it reloads the selected 
 
 Add lightweight product requirements to `docs/prd/`. They do not need to be large or complete PRDs—simple high-level notes about users, desired behaviour, and constraints are enough. You can think of them as **product briefs**.
 
+Then use the skills in the following order:
+
 ```text
 pmd-plan       → discuss scope, draft needed specs, create iteration
 pmd-implement  → implement all or selected iteration tasks
 pmd-complete   → verify, request approval, archive and update changelog
 ```
 
-Start with:
+You can just type the skill name or add some context like here:
 
 ```text
-Use pmd-plan to plan the next iteration from the relevant
-product requirements and selected items from docs/inbox.md.
+Use pmd-plan to plan dark mode implementation
 ```
 
 ## Structure
