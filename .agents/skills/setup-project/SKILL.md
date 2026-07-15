@@ -7,13 +7,15 @@ description: Install or update Plain Markdown Development in a repository. Use w
 
 Initialize or update PMD without replacing the user's existing agent instructions.
 
-## Required template
+## Required templates
 
 Read:
 
 `references/agents-instructions.md`
 
-It contains the complete PMD instruction block between:
+`references/inbox.md`
+
+The first contains the complete PMD instruction block between:
 
 ```text
 <!-- PMD:START -->
@@ -39,15 +41,9 @@ docs/inbox.md
 docs/changelog.md
 ```
 
-Use these minimal contents:
+Create `docs/inbox.md` from `references/inbox.md`.
 
-`docs/inbox.md`
-
-```markdown
-# Inbox
-```
-
-`docs/changelog.md`
+Use this minimal content for `docs/changelog.md`:
 
 ```markdown
 # Changelog

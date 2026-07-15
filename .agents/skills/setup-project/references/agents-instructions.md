@@ -1,6 +1,6 @@
 <!-- PMD:START -->
 
-# Project instructions
+# PRD-driven development workflow
 
 ## Documentation structure
 
