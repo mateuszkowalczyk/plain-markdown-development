@@ -1,0 +1,55 @@
+# Plain Markdown Development
+
+A lightweight workflow for planning and delivering product work with Markdown and agent skills.
+
+## Flow
+
+```text
+Requirements → Specs → Iterations → Implementation → Approval → Archive + Changelog
+```
+
+Loose ideas, bugs, and questions go to `docs/inbox.md`.
+
+## Installation
+
+Copy `.agents/skills/` into your repository, then ask your coding agent:
+
+```text
+Use pmd:setup-project to install PMD in this repository.
+```
+
+Setup creates the documentation structure and adds a marked PMD section to your existing `AGENTS.md`. It preserves all other instructions and updates only that section on future runs.
+
+## Quick Start
+
+Add lightweight product requirements to `docs/prd/`. They do not need to be large or complete PRDs—simple high-level notes about users, desired behaviour, and constraints are enough. You can think of them as **product briefs**.
+
+```text
+pmd:plan-iteration       → discuss scope, draft needed specs, create iteration
+pmd:implement-iteration  → implement all or selected iteration tasks
+pmd:complete-iteration   → verify, request approval, archive and update changelog
+```
+
+Start with:
+
+```text
+Use pmd:plan-iteration to plan the next iteration from the relevant
+product requirements and selected items from docs/inbox.md.
+```
+
+## Structure
+
+```text
+docs/
+├── prd/              # lightweight product requirements
+├── specs/            # detailed behaviour for work being prepared
+├── tasks/
+│   ├── current/      # planned or in-progress iterations
+│   └── archived/     # approved, completed iterations
+├── inbox.md          # loose ideas, bugs, and questions
+└── changelog.md      # delivered user-visible changes
+```
+
+During planning, the agent usually drafts any needed specs from the product requirements, repository context, and discussion with you. You approve every spec before it is saved.
+
+Small bugs, maintenance work, and technical tasks can go directly into an iteration. Multiple current iterations are allowed when useful.
