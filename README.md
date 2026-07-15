@@ -1,6 +1,6 @@
 # Plain Markdown Development
 
-A lightweight workflow for planning and delivering product work with Markdown and agent skills.
+A lightweight, agent-assisted workflow for structuring features, planning what comes next, and developing iteratively, with everything kept as Markdown in your repository.
 
 ## Flow
 
