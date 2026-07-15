@@ -134,17 +134,17 @@ Do not silently resolve meaningful contradictions. Explain them and update the a
 
 Use the relevant project skill for procedural work:
 
-- `pmd-setup-project` — initialize the PMD folder and file structure
-- `pmd-plan-iteration` — discuss the scope, draft any needed specs, and plan an iteration
-- `pmd-implement-iteration` — implement all or part of an iteration
-- `pmd-complete-iteration` — verify, request approval, update changelog, and archive an iteration
+- `pmd-setup` — initialize the PMD folder and file structure
+- `pmd-plan` — discuss the scope, draft any needed specs, and plan an iteration
+- `pmd-implement` — implement all or part of an iteration
+- `pmd-complete` — verify, request approval, update changelog, and archive an iteration
 
 After finishing a skill, suggest the appropriate next workflow step:
 
-- setup → restart the agent or start a new session, briefly describe the app requirements in `docs/prd/`, then use `pmd-plan-iteration`
-- planning → `pmd-implement-iteration`
-- partial implementation → `pmd-implement-iteration` for another part
-- full implementation → `pmd-complete-iteration`
-- completion → `pmd-implement-iteration` for another current iteration, or `pmd-plan-iteration` when new planning is needed
+- setup → restart the agent or start a new session, briefly describe the app requirements in `docs/prd/`, then use `pmd-plan`
+- planning → `pmd-implement`
+- partial implementation → `pmd-implement` for another part
+- full implementation → `pmd-complete`
+- completion → `pmd-implement` for another current iteration, or `pmd-plan` when new planning is needed
 
 <!-- PMD:END -->

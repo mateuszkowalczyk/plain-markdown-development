@@ -1,5 +1,5 @@
 ---
-name: pmd-complete-iteration
+name: pmd-complete
 description: Verify that a current iteration is ready to finish, request explicit user approval, and after approval update the changelog and archive that iteration. Use when the user asks to review, finish, approve, close, or archive an iteration.
 ---
 
@@ -50,8 +50,8 @@ Proceed only when the user explicitly approves completing or archiving this iter
 6. Move the file from `docs/tasks/current/` to `docs/tasks/archived/` without renaming it.
 7. Report the archived path and changelog update.
 8. Suggest the next step based on the remaining work:
-   - use `pmd-implement-iteration` when another current iteration is ready to implement
-   - otherwise use `pmd-plan-iteration` to plan the next iteration
+   - use `pmd-implement` when another current iteration is ready to implement
+   - otherwise use `pmd-plan` to plan the next iteration
 
 ## Changelog format
 

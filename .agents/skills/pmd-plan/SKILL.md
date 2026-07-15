@@ -1,5 +1,5 @@
 ---
-name: pmd-plan-iteration
+name: pmd-plan
 description: Plan a new Markdown iteration from selected PRDs, specs, inbox items, bugs, or technical work. Use when the user asks to start, create, scope, or plan an iteration. During planning, discuss unclear product behaviour with the user and draft any needed specs, but obtain explicit approval before changing spec files. Does not implement code.
 ---
 
@@ -34,7 +34,7 @@ Create an iteration containing only the scope selected by the user. The agent no
 10. Set the status to `Planned`.
 11. Remove an item from `docs/inbox.md` only after it is fully represented in a spec or the iteration.
 12. Summarize the iteration and any blockers.
-13. Suggest using `pmd-implement-iteration` to implement the planned iteration.
+13. Suggest using `pmd-implement` to implement the planned iteration.
 
 Do not implement code.
 

@@ -1,5 +1,5 @@
 ---
-name: pmd-setup-project
+name: pmd-setup
 description: Install or update Plain Markdown Development in a repository. Use when the user asks to set up, initialize, install, or upgrade PMD. Creates the documentation structure and safely inserts the PMD instruction block into the user's chosen AGENTS.md or CLAUDE.md file.
 ---
 
@@ -76,7 +76,7 @@ Use this minimal content for `docs/changelog.md`:
 9. After setup finishes without unresolved conflicts, recommend this sequence:
    1. restart the agent or start a new session so it reloads the selected instruction file
    2. briefly describe the app requirements in a Markdown file under `docs/prd/`
-   3. use `pmd-plan-iteration` to plan the first or next iteration from those requirements
+   3. use `pmd-plan` to plan the first or next iteration from those requirements
 
 Do not create product requirements, specs, iterations, tasks, or changelog entries during setup unless explicitly asked.
 

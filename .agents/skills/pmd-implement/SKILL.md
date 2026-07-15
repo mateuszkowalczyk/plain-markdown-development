@@ -1,5 +1,5 @@
 ---
-name: pmd-implement-iteration
+name: pmd-implement
 description: Implement all or a user-selected part of a current Markdown iteration while keeping task checkboxes, tests, and documentation consistent. Use when the user asks to implement an iteration, a task group, specific tasks, or the next unchecked task. May prepare the iteration for approval, but never archives it.
 ---
 
@@ -49,9 +49,9 @@ Do not expand the requested scope without explaining why it is necessary.
    - checks run and results
    - deviations, blockers, or proposed documentation changes
 15. Suggest the next step:
-   - when the requested work covered only part of the iteration, suggest using `pmd-implement-iteration` to implement another part
-   - when required work remains incomplete, suggest using `pmd-implement-iteration` to continue it
-   - when all required tasks are checked and validation passes, suggest using `pmd-complete-iteration`
+   - when the requested work covered only part of the iteration, suggest using `pmd-implement` to implement another part
+   - when required work remains incomplete, suggest using `pmd-implement` to continue it
+   - when all required tasks are checked and validation passes, suggest using `pmd-complete`
 
 ## Preparing completion automatically
 
@@ -63,7 +63,7 @@ When all required tasks are checked and validation passes:
 2. set the iteration status to `Awaiting approval`
 3. present a completion summary
 4. explicitly ask the user to approve completion
-5. suggest using `pmd-complete-iteration` to complete the iteration
+5. suggest using `pmd-complete` to complete the iteration
 
 Do not archive the iteration, update the changelog, or mark it `Completed`.
 
