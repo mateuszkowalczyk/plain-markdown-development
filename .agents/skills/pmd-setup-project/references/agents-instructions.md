@@ -134,9 +134,9 @@ Do not silently resolve meaningful contradictions. Explain them and update the a
 
 Use the relevant project skill for procedural work:
 
-- `pmd:setup-project` — initialize the PMD folder and file structure
-- `pmd:plan-iteration` — discuss the scope, draft any needed specs, and plan an iteration
-- `pmd:implement-iteration` — implement all or part of an iteration
-- `pmd:complete-iteration` — verify, request approval, update changelog, and archive an iteration
+- `pmd-setup-project` — initialize the PMD folder and file structure
+- `pmd-plan-iteration` — discuss the scope, draft any needed specs, and plan an iteration
+- `pmd-implement-iteration` — implement all or part of an iteration
+- `pmd-complete-iteration` — verify, request approval, update changelog, and archive an iteration
 
 <!-- PMD:END -->

@@ -1,5 +1,5 @@
 ---
-name: pmd:implement-iteration
+name: pmd-implement-iteration
 description: Implement all or a user-selected part of a current Markdown iteration while keeping task checkboxes, tests, and documentation consistent. Use when the user asks to implement an iteration, a task group, specific tasks, or the next unchecked task. May prepare the iteration for approval, but never archives it.
 ---
 

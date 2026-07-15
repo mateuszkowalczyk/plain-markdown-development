@@ -1,5 +1,5 @@
 ---
-name: pmd:setup-project
+name: pmd-setup-project
 description: Install or update Plain Markdown Development in a repository. Use when the user asks to set up, initialize, install, or upgrade PMD. Creates the documentation structure and safely inserts the PMD instruction block into the project's existing AGENTS.md.
 ---
 

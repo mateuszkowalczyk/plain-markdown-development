@@ -15,7 +15,7 @@ Loose ideas, bugs, and questions go to `docs/inbox.md`.
 Copy `.agents/skills/` into your repository, then ask your coding agent:
 
 ```text
-Use pmd:setup-project to install PMD in this repository.
+Use pmd-setup-project to install PMD in this repository.
 ```
 
 Setup creates the documentation structure and adds a marked PMD section to your existing `AGENTS.md`. It preserves all other instructions and updates only that section on future runs.
@@ -25,15 +25,15 @@ Setup creates the documentation structure and adds a marked PMD section to your 
 Add lightweight product requirements to `docs/prd/`. They do not need to be large or complete PRDs—simple high-level notes about users, desired behaviour, and constraints are enough. You can think of them as **product briefs**.
 
 ```text
-pmd:plan-iteration       → discuss scope, draft needed specs, create iteration
-pmd:implement-iteration  → implement all or selected iteration tasks
-pmd:complete-iteration   → verify, request approval, archive and update changelog
+pmd-plan-iteration       → discuss scope, draft needed specs, create iteration
+pmd-implement-iteration  → implement all or selected iteration tasks
+pmd-complete-iteration   → verify, request approval, archive and update changelog
 ```
 
 Start with:
 
 ```text
-Use pmd:plan-iteration to plan the next iteration from the relevant
+Use pmd-plan-iteration to plan the next iteration from the relevant
 product requirements and selected items from docs/inbox.md.
 ```
 

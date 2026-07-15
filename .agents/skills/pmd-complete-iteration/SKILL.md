@@ -1,5 +1,5 @@
 ---
-name: pmd:complete-iteration
+name: pmd-complete-iteration
 description: Verify that a current iteration is ready to finish, request explicit user approval, and after approval update the changelog and archive that iteration. Use when the user asks to review, finish, approve, close, or archive an iteration.
 ---
 

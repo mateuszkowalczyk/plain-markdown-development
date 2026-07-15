@@ -1,5 +1,5 @@
 ---
-name: pmd:plan-iteration
+name: pmd-plan-iteration
 description: Plan a new Markdown iteration from selected PRDs, specs, inbox items, bugs, or technical work. Use when the user asks to start, create, scope, or plan an iteration. During planning, discuss unclear product behaviour with the user and draft any needed specs, but obtain explicit approval before changing spec files. Does not implement code.
 ---
 
