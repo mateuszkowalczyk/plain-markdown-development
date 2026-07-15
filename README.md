@@ -18,7 +18,7 @@ Copy `.agents/skills/` into your repository, then ask your coding agent:
 Use pmd-setup-project to install PMD in this repository.
 ```
 
-Setup creates the documentation structure and adds a marked PMD section to your existing `AGENTS.md`. It preserves all other instructions and updates only that section on future runs.
+After setup restart the agent or start a new session so it reloads the selected instruction file.
 
 ## Quick Start
 

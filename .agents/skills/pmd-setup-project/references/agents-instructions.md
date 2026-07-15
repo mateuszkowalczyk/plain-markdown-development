@@ -141,7 +141,7 @@ Use the relevant project skill for procedural work:
 
 After finishing a skill, suggest the appropriate next workflow step:
 
-- setup → `pmd-plan-iteration`
+- setup → restart the agent or start a new session, briefly describe the app requirements in `docs/prd/`, then use `pmd-plan-iteration`
 - planning → `pmd-implement-iteration`
 - partial implementation → `pmd-implement-iteration` for another part
 - full implementation → `pmd-complete-iteration`
