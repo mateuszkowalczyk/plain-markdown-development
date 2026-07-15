@@ -51,7 +51,7 @@ Do not expand the requested scope without explaining why it is necessary.
 15. Suggest the next step:
    - when the requested work covered only part of the iteration, suggest using `pmd-implement` to implement another part
    - when required work remains incomplete, suggest using `pmd-implement` to continue it
-   - when all required tasks are checked and validation passes, suggest using `pmd-complete`
+   - when all required tasks are checked and validation passes, tell the user: "Once you're ready to approve and archive the iteration, run `pmd-complete`."
 
 ## Preparing completion automatically
 
@@ -62,10 +62,9 @@ When all required tasks are checked and validation passes:
 1. add concise completion notes only when useful
 2. set the iteration status to `Awaiting approval`
 3. present a completion summary
-4. explicitly ask the user to approve completion
-5. suggest using `pmd-complete` to complete the iteration
+4. tell the user: "Once you're ready to approve and archive the iteration, run `pmd-complete`."
 
-Do not archive the iteration, update the changelog, or mark it `Completed`.
+Do not ask for approval during implementation. Do not archive the iteration, update the changelog, or mark it `Completed`; those steps belong to `pmd-complete`.
 
 ## Scope discipline
 
