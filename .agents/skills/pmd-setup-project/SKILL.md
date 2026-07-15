@@ -67,6 +67,7 @@ Use this minimal content for `docs/changelog.md`:
    - directories and files created
    - whether the PMD block was inserted, updated, or already current
    - any conflicts requiring user input
+8. After setup finishes without unresolved conflicts, suggest using `pmd-plan-iteration` to plan the first or next iteration.
 
 Do not create product requirements, specs, iterations, tasks, or changelog entries during setup unless explicitly asked.
 

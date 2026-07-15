@@ -34,6 +34,7 @@ Create an iteration containing only the scope selected by the user. The agent no
 10. Set the status to `Planned`.
 11. Remove an item from `docs/inbox.md` only after it is fully represented in a spec or the iteration.
 12. Summarize the iteration and any blockers.
+13. Suggest using `pmd-implement-iteration` to implement the planned iteration.
 
 Do not implement code.
 

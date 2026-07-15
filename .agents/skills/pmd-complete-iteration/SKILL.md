@@ -49,6 +49,9 @@ Proceed only when the user explicitly approves completing or archiving this iter
 5. Set the iteration status to `Completed`.
 6. Move the file from `docs/tasks/current/` to `docs/tasks/archived/` without renaming it.
 7. Report the archived path and changelog update.
+8. Suggest the next step based on the remaining work:
+   - use `pmd-implement-iteration` when another current iteration is ready to implement
+   - otherwise use `pmd-plan-iteration` to plan the next iteration
 
 ## Changelog format
 

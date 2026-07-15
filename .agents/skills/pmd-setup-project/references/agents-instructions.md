@@ -139,4 +139,12 @@ Use the relevant project skill for procedural work:
 - `pmd-implement-iteration` — implement all or part of an iteration
 - `pmd-complete-iteration` — verify, request approval, update changelog, and archive an iteration
 
+After finishing a skill, suggest the appropriate next workflow step:
+
+- setup → `pmd-plan-iteration`
+- planning → `pmd-implement-iteration`
+- partial implementation → `pmd-implement-iteration` for another part
+- full implementation → `pmd-complete-iteration`
+- completion → `pmd-implement-iteration` for another current iteration, or `pmd-plan-iteration` when new planning is needed
+
 <!-- PMD:END -->
