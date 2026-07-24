@@ -39,14 +39,9 @@ Each spec describes one coherent product capability or system behaviour. Specs d
 
 Specs are usually drafted by the agent during iteration planning, based on the product requirements, repository context, and discussion with the user. The user does not need to prepare specs manually.
 
-Every spec has one status:
-
-- `Draft` — incomplete or blocked by unresolved questions.
-- `Ready` — clear enough to create implementation tasks.
-
 Specs are required for meaningful product behaviour, but not for every small bug, research task, refactor, or maintenance item.
 
-The agent should discuss unclear behaviour with the user and propose the resulting spec. Always obtain explicit user approval before creating, editing, renaming, deleting, or changing the status of a spec.
+The agent should discuss unclear behaviour with the user and propose the resulting spec. Always obtain explicit user approval before creating, editing, renaming, or deleting a spec.
 
 ### Inbox
 
@@ -123,7 +118,7 @@ When documents conflict, use this priority:
 
 1. Explicit current user instruction
 2. PRD
-3. `Ready` spec
+3. Spec
 4. Current iteration file
 5. Existing implementation
 6. Inbox entry
