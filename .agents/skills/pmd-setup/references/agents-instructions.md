@@ -106,7 +106,7 @@ A task is complete only when:
 - acceptance criteria are satisfied
 - affected documentation is consistent
 
-Do not update a spec merely because implementation was completed. A spec should change only when expected behaviour must be clarified or changed, and only after explicit spec-change approval from the user.
+Do not update a spec merely because implementation was completed. A spec should change only when expected behaviour must be clarified or changed, and only after explicit spec-change approval from the user. If user suggests something different from the spec at some point, ask them if you should change the spec to match that.
 
 Iteration-completion approval is a separate gate handled by `pmd-complete`. An iteration must not be marked `Completed`, added to the changelog, or archived without that approval.
 
