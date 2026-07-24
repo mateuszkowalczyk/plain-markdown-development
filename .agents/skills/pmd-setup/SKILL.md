@@ -29,6 +29,7 @@ The first contains the complete PMD instruction block between:
    - use the question tool when it is available
    - otherwise ask the user directly
    - do not modify either instruction file until the user chooses one
+   - after the user chooses, inspect both files for PMD markers
 3. Create missing directories:
 
 ```text
@@ -63,17 +64,23 @@ Use this minimal content for `docs/changelog.md`:
    - Never replace the user's entire instruction file.
    - Leave the unselected instruction file unchanged.
 
-6. If only one PMD marker exists in the selected file, do not guess how to repair it. Report the malformed block and ask the user before editing that file.
-7. If the repository already has overlapping requirement or documentation directories:
+6. If the unselected instruction file contains a complete PMD block:
+   - leave it unchanged
+   - report that its PMD block may be stale
+   - recommend removing the block manually if that file is no longer used for PMD instructions
+   - treat the notice as informational, not as an unresolved conflict
+7. If only one PMD marker exists in the selected file, do not guess how to repair it. Report the malformed block and ask the user before editing that file.
+8. If the repository already has overlapping requirement or documentation directories:
    - preserve them
    - explain the overlap
    - ask before moving or renaming existing content
-8. Report:
+9. Report:
    - directories and files created
    - which instruction file was selected
    - whether its PMD block was inserted, updated, or already current
+   - any potentially stale PMD block found in the unselected instruction file
    - any conflicts requiring user input
-9. After setup finishes without unresolved conflicts, recommend this sequence:
+10. After setup finishes without unresolved conflicts, recommend this sequence:
    1. restart the agent or start a new session so it reloads the selected instruction file
    2. briefly describe the app requirements in a Markdown file under `docs/prd/`
    3. use `pmd-plan` to plan the first or next iteration from those requirements
