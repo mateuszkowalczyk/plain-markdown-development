@@ -41,7 +41,7 @@ Specs are usually drafted by the agent during iteration planning, based on the p
 
 Specs are required for meaningful product behaviour, but not for every small bug, research task, refactor, or maintenance item.
 
-The agent should discuss unclear behaviour with the user and propose the resulting spec. Always obtain explicit user approval before creating, editing, renaming, or deleting a spec.
+The agent should discuss unclear behaviour with the user and propose the resulting spec. In any workflow, always obtain explicit spec-change approval from the user before creating, editing, renaming, or deleting a spec.
 
 ### Inbox
 
@@ -106,9 +106,9 @@ A task is complete only when:
 - acceptance criteria are satisfied
 - affected documentation is consistent
 
-Do not update a spec merely because implementation was completed. A spec should change only when expected behaviour must be clarified or changed, and only after explicit user approval.
+Do not update a spec merely because implementation was completed. A spec should change only when expected behaviour must be clarified or changed, and only after explicit spec-change approval from the user.
 
-An iteration must not be archived without explicit user approval.
+Iteration-completion approval is a separate gate handled by `pmd-complete`. An iteration must not be marked `Completed`, added to the changelog, or archived without that approval.
 
 An iteration must not be archived with unchecked required tasks. Work intentionally removed from scope must be moved to another documented destination and explained when relevant.
 

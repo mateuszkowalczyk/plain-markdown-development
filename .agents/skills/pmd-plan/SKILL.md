@@ -1,6 +1,6 @@
 ---
 name: pmd-plan
-description: Plan a new Markdown iteration from selected PRDs, specs, inbox items, bugs, or technical work. Use when the user asks to start, create, scope, or plan an iteration. During planning, discuss unclear product behaviour with the user and draft any needed specs, but obtain explicit approval before changing spec files. Does not implement code.
+description: Plan a new Markdown iteration from selected PRDs, specs, inbox items, bugs, or technical work. Use when the user asks to start, create, scope, or plan an iteration. During planning, discuss unclear product behaviour with the user and draft any needed specs, but obtain explicit spec-change approval before changing spec files. Does not implement code.
 ---
 
 # Plan an iteration
@@ -19,7 +19,7 @@ Create an iteration containing only the scope selected by the user. The agent no
    - discuss the intended behaviour with the user during the planning session
    - use the discussion, product requirements, and repository context to draft the spec
    - present the proposed spec content or change
-   - obtain explicit user approval before modifying any file in `docs/specs/`
+   - obtain explicit spec-change approval from the user before modifying any file in `docs/specs/`
 6. Convert the selected scope into small, independently verifiable checkboxes.
 7. Group checkboxes in whichever way best communicates the work:
    - by feature
@@ -37,6 +37,8 @@ Create an iteration containing only the scope selected by the user. The agent no
 13. Suggest using `pmd-implement` to implement the planned iteration.
 
 Do not implement code.
+
+Spec-change approval permits the proposed spec mutation. It is separate from iteration-completion approval, which is requested and handled by `pmd-complete`.
 
 ## Minimal iteration template
 

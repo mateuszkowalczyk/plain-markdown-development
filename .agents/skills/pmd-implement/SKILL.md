@@ -40,7 +40,7 @@ Do not expand the requested scope without explaining why it is necessary.
 12. If expected behaviour needs to be clarified or changed:
    - discuss the behaviour with the user
    - draft the proposed spec update from that discussion and repository context
-   - obtain explicit user approval
+   - obtain explicit spec-change approval from the user
    - only then modify the spec
 13. Do not update `docs/changelog.md`.
 14. Report:
@@ -64,7 +64,7 @@ When all required tasks are checked and validation passes:
 3. present a completion summary
 4. tell the user: "Once you're ready to approve and archive the iteration, run `pmd-complete`."
 
-Do not ask for approval during implementation. Do not archive the iteration, update the changelog, or mark it `Completed`; those steps belong to `pmd-complete`.
+Explicit spec-change approval is still required before modifying a spec during implementation. Do not request iteration-completion approval, including approval to archive, during implementation; that separate gate belongs to `pmd-complete`. Do not archive the iteration, update the changelog, or mark it `Completed`.
 
 ## Scope discipline
 
