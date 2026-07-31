@@ -1,6 +1,6 @@
 ---
 name: pmd-setup
-description: Install or update Plain Markdown Development in a repository. Use when the user asks to set up, initialize, install, or upgrade PMD. Creates the documentation structure and safely inserts the PMD instruction block into the user's chosen AGENTS.md or CLAUDE.md file.
+description: Install or update Plain Markdown Development in a repository. Use when the user asks to set up, initialize, install, or upgrade PMD. Creates the documentation structure and safely inserts the PMD instruction block into the user's chosen AGENTS.md, CLAUDE.md, or both.
 ---
 
 # Set up PMD
@@ -25,10 +25,12 @@ The first contains the complete PMD instruction block between:
 ## Procedure
 
 1. Inspect the repository structure and its existing `AGENTS.md` and `CLAUDE.md`, if present.
-2. Ask whether to install the PMD instructions in `AGENTS.md` or `CLAUDE.md`:
+2. Ask whether to install the PMD instructions in `AGENTS.md`, `CLAUDE.md`, or both:
    - use the question tool when it is available
    - otherwise ask the user directly
-   - do not modify either instruction file until the user chooses one
+   - installing in both supports teams whose agents use different instruction-file conventions
+   - one file may instead contain the PMD block and the other may explicitly direct agents to read it
+   - do not modify either instruction file until the user chooses
    - after the user chooses, inspect both files for PMD markers
 3. Create missing directories:
 
@@ -54,30 +56,29 @@ Use this minimal content for `docs/changelog.md`:
 # Changelog
 ```
 
-5. Install the PMD instructions into the selected repository-root instruction file:
+5. Install the PMD instructions into each selected repository-root instruction file:
 
-   - If the selected file does not exist, create it with the complete marked block from `references/agents-instructions.md`.
-   - If the selected file exists and has no PMD markers, append the complete marked block after the existing content.
-   - If both PMD markers already exist, replace only the content from `<!-- PMD:START -->` through `<!-- PMD:END -->` with the current template.
+   - If a selected file does not exist, create it with the complete marked block from `references/agents-instructions.md`.
+   - If a selected file exists and has no PMD markers, append the complete marked block after the existing content.
+   - If both PMD markers already exist, replace only the content from `<!-- PMD:START -->` through `<!-- PMD:END -->` with the current template in that file.
    - Preserve all content outside the PMD markers.
-   - Never create a second PMD block.
+   - Never create a second PMD block in either file.
    - Never replace the user's entire instruction file.
-   - Leave the unselected instruction file unchanged.
+   - When only one file is selected, leave the other instruction file unchanged.
 
-6. If the unselected instruction file contains a complete PMD block:
+6. When only one instruction file is selected and the other contains a complete PMD block:
    - leave it unchanged
-   - report that its PMD block may be stale
-   - recommend removing the block manually if that file is no longer used for PMD instructions
+   - report that its PMD block may be stale or may intentionally support another agent
    - treat the notice as informational, not as an unresolved conflict
-7. If only one PMD marker exists in the selected file, do not guess how to repair it. Report the malformed block and ask the user before editing that file.
+7. If only one PMD marker exists in any selected file, do not guess how to repair it. Report the malformed block and ask the user before editing that file.
 8. If the repository already has overlapping requirement or documentation directories:
    - preserve them
    - explain the overlap
    - ask before moving or renaming existing content
 9. Report:
    - directories and files created
-   - which instruction file was selected
-   - whether its PMD block was inserted, updated, or already current
+   - which instruction file or files were selected
+   - whether each selected PMD block was inserted, updated, or already current
    - any potentially stale PMD block found in the unselected instruction file
    - any conflicts requiring user input
 10. After setup finishes without unresolved conflicts, recommend this sequence:
@@ -92,6 +93,6 @@ Do not create product requirements, specs, iterations, tasks, or changelog entri
 Running setup repeatedly must be safe:
 
 ```text
-first run   → create structure and insert the PMD block in the selected instruction file
-later run   → update only the existing PMD block in the selected instruction file
+first run   → create structure and insert the PMD block in the selected instruction file or files
+later run   → update only the existing PMD block in each selected instruction file
 ```

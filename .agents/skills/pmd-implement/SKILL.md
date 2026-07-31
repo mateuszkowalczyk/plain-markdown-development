@@ -22,33 +22,32 @@ Do not expand the requested scope without explaining why it is necessary.
 
 ## Procedure
 
-1. Read `AGENTS.md`.
-2. Locate the relevant file in `docs/tasks/current/`.
-3. Read all referenced specs and relevant PRD sections before changing code.
-4. Select tasks strictly according to the user's instruction.
-5. Implement the smallest coherent set of changes needed.
-6. Add or update tests that verify the acceptance criteria.
-7. Run relevant tests, linters, type checks, and build checks.
-8. Mark a checkbox `[x]` only when:
+1. Locate the relevant file in `docs/tasks/current/`.
+2. Read all referenced specs and relevant PRD sections before changing code.
+3. Select tasks strictly according to the user's instruction.
+4. Implement the smallest coherent set of changes needed.
+5. Add or update tests that verify the acceptance criteria.
+6. Run relevant tests, linters, type checks, and build checks.
+7. Mark a checkbox `[x]` only when:
    - implementation is complete
    - relevant checks pass
    - acceptance criteria are met
    - affected documentation is consistent
-9. Leave incomplete and unselected tasks unchecked.
-10. Add concise implementation notes only when useful.
-11. Do not update a spec merely because implementation is complete.
-12. If expected behaviour needs to be clarified or changed:
+8. Leave incomplete and unselected tasks unchecked.
+9. Add concise implementation notes only when useful.
+10. Do not update a spec merely because implementation is complete.
+11. If expected behaviour needs to be clarified or changed:
    - discuss the behaviour with the user
    - draft the proposed spec update from that discussion and repository context
    - obtain explicit spec-change approval from the user
    - only then modify the spec
-13. Do not update `docs/changelog.md`.
-14. Report:
+12. Do not update `docs/changelog.md`.
+13. Report:
    - tasks completed
    - tasks still open
    - checks run and results
    - deviations, blockers, or proposed documentation changes
-15. Suggest the next step:
+14. Suggest the next step:
    - when the requested work covered only part of the iteration, suggest using `pmd-implement` to implement another part
    - when required work remains incomplete, suggest using `pmd-implement` to continue it
    - when all required tasks are checked and validation passes, tell the user: "Once you're ready to approve and archive the iteration, run `pmd-complete`."

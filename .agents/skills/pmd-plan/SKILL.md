@@ -9,32 +9,31 @@ Create an iteration containing only the scope selected by the user. The agent no
 
 ## Procedure
 
-1. Read `AGENTS.md`.
-2. Inspect `docs/tasks/current/` and `docs/tasks/archived/` to determine the next iteration number.
-3. Read the PRDs, specs, inbox entries, bug context, and code relevant to the requested scope.
-4. Decide whether each item needs a spec:
+1. Inspect `docs/tasks/current/` and `docs/tasks/archived/` to determine the next iteration number.
+2. Read the PRDs, specs, inbox entries, bug context, and code relevant to the requested scope.
+3. Decide whether each item needs a spec:
    - meaningful product behaviour should normally have a spec
    - small bugs, maintenance, refactors, research, and technical work may go directly into an iteration
-5. When a required spec is missing or unclear:
+4. When a required spec is missing or unclear:
    - discuss the intended behaviour with the user during the planning session
    - use the discussion, product requirements, and repository context to draft the spec
    - present the proposed spec content or change
    - obtain explicit spec-change approval from the user before modifying any file in `docs/specs/`
-6. Convert the selected scope into small, independently verifiable checkboxes.
-7. Group checkboxes in whichever way best communicates the work:
+5. Convert the selected scope into small, independently verifiable checkboxes.
+6. Group checkboxes in whichever way best communicates the work:
    - by feature
    - by subsystem
    - by work type
    - by another sensible structure
-8. Place bugs either in a separate section or beside the feature they affect, whichever is clearer.
-9. Create:
+7. Place bugs either in a separate section or beside the feature they affect, whichever is clearer.
+8. Create:
 
    `docs/tasks/current/iteration-NNN-short-name.md`
 
-10. Set the status to `Planned`.
-11. Remove an item from `docs/inbox.md` only after it is fully represented in a spec or the iteration.
-12. Summarize the iteration and any blockers.
-13. Suggest using `pmd-implement` to implement the planned iteration.
+9. Set the status to `Planned`.
+10. Remove an item from `docs/inbox.md` only after it is fully represented in a spec or the iteration.
+11. Summarize the iteration and any blockers.
+12. Suggest using `pmd-implement` to implement the planned iteration.
 
 Do not implement code.
 

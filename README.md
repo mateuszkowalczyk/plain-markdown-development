@@ -18,7 +18,7 @@ Copy `.agents/skills/` into your repository, then ask your coding agent:
 Use pmd-setup to install PMD in this repository.
 ```
 
-After setup restart the agent or start a new session so it reloads the selected instruction file.
+After setup, restart the agent or start a new session so it reloads the applicable instruction file.
 
 ## Quick Start
 
