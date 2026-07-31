@@ -49,14 +49,14 @@ Do not expand the requested scope without explaining why it is necessary.
    - deviations, blockers, or proposed documentation changes
 14. Suggest the next step:
    - when the requested work covered only part of the iteration, suggest using `pmd-implement` to implement another part
-   - when required work remains incomplete, suggest using `pmd-implement` to continue it
-   - when all required tasks are checked and validation passes, tell the user: "Once you're ready to approve and archive the iteration, run `pmd-complete`."
+   - when any checkbox remains unchecked, suggest using `pmd-implement` to continue it
+   - when all checkboxes are checked and validation passes, tell the user: "Once you're ready to approve and archive the iteration, run `pmd-complete`."
 
 ## Preparing completion automatically
 
 After implementation, inspect the whole iteration.
 
-When all required tasks are checked and validation passes:
+When all checkboxes are checked and validation passes:
 
 1. add concise completion notes only when useful
 2. set the iteration status to `Awaiting approval`
@@ -68,6 +68,8 @@ Explicit spec-change approval is still required before modifying a spec during i
 ## Scope discipline
 
 Do not opportunistically implement unrelated inbox items or deferred work.
+
+Every checkbox is required for iteration completion. If a task is no longer needed, move it to a clearly labeled deferred section as a plain list item or to `docs/inbox.md`.
 
 When implementation reveals new work:
 

@@ -59,7 +59,7 @@ Spec-change approval permits the proposed spec mutation. It is separate from ite
 - [ ] <Small, verifiable task>
 ```
 
-`Sources` may be omitted when no document reference is useful. Add dependencies, deferred work, open questions, or notes only when they provide real value.
+`Sources` may be omitted when no document reference is useful. Add dependencies, deferred work, open questions, or notes only when they provide real value. Every checkbox is required for iteration completion, so deferred work must use plain list items rather than checkboxes.
 
 ## Readiness test
 

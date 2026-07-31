@@ -25,10 +25,10 @@ Never treat a request to review readiness as approval to archive.
    - draft the exact update from that discussion and repository context
    - ask for approval before editing it
 7. Resolve unfinished work:
-   - leave required unfinished tasks unchecked, or
-   - move intentionally descoped work to a future iteration, a spec, or `docs/inbox.md`
+   - treat every checkbox as required and leave unfinished tasks unchecked, or
+   - move a task that is no longer needed to a clearly labeled deferred section as a plain list item or to `docs/inbox.md`
 8. Add concise completion notes only when useful.
-9. If required work remains incomplete, report that the iteration is not ready.
+9. If any checkbox remains unchecked, report that the iteration is not ready.
 10. If ready, set status to `Awaiting approval`.
 11. Present a completion summary and explicitly ask the user to approve completion.
 
@@ -39,7 +39,7 @@ Do not update the changelog or move the file during Stage 1.
 Proceed only when the user explicitly approves completing or archiving this iteration.
 
 1. Re-read the iteration and confirm it is ready.
-2. Confirm there are no unchecked required tasks.
+2. Confirm there are no unchecked checkboxes.
 3. Add one user-visible entry to `docs/changelog.md`.
 4. Reference the archived iteration path:
 

@@ -78,7 +78,7 @@ Checkboxes are:
 - `[ ]` — incomplete
 - `[x]` — complete
 
-Do not use custom checkbox states.
+Every checkbox in an iteration is required for completion. Do not use checkboxes for deferred work or custom checkbox states.
 
 Iteration files require only:
 
@@ -87,7 +87,7 @@ Iteration files require only:
 - sources when applicable
 - task checkboxes
 
-Add sections such as dependencies, deferred work, open questions, or completion notes only when useful.
+Add sections such as dependencies, deferred work, open questions, or completion notes only when useful. Record deferred work as plain list items, not checkboxes.
 
 ### Changelog
 
@@ -110,7 +110,7 @@ Do not update a spec merely because implementation was completed. A spec should 
 
 Iteration-completion approval is a separate gate handled by `pmd-complete`. An iteration must not be marked `Completed`, added to the changelog, or archived without that approval.
 
-An iteration must not be archived with unchecked required tasks. Work intentionally removed from scope must be moved to another documented destination and explained when relevant.
+An iteration must not be archived with any unchecked checkbox. A task intentionally removed from scope must be moved to a clearly labeled deferred section as a plain list item or to `docs/inbox.md`.
 
 ## Source-of-truth order
 
