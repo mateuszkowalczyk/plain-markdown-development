@@ -10,7 +10,7 @@ Completion is a two-stage workflow:
 1. verify and request approval
 2. archive only after explicit user approval
 
-Never treat a request to review readiness as approval to archive.
+Every completion attempt starts with Stage 1. Never treat the request that starts the completion review, even if it asks to approve or archive, as approval to archive. Approval is fresh only when the user gives it after the latest readiness report.
 
 ## Stage 1: verify and request approval
 
@@ -36,19 +36,25 @@ Do not update the changelog or move the file during Stage 1.
 
 ## Stage 2: archive after explicit approval
 
-Proceed only when the user explicitly approves completing or archiving this iteration.
+Proceed only when the user explicitly approves completing or archiving this iteration after the latest readiness report.
 
 1. Re-read the iteration and confirm it is ready.
 2. Confirm there are no unchecked checkboxes.
-3. Add one user-visible entry to `docs/changelog.md`.
-4. Reference the archived iteration path:
+3. Before changing any file, confirm all of the following:
+   - the iteration still exists in `docs/tasks/current/`
+   - its status is `Awaiting approval`
+   - the destination does not already exist in `docs/tasks/archived/`
+   - `docs/changelog.md` has no entry or archived-path reference for this iteration
+4. If any preflight check fails, stop without making changes and report the conflicting state. Never overwrite an archived file or duplicate a changelog entry.
+5. Add one user-visible entry to `docs/changelog.md`.
+6. Reference the archived iteration path:
 
    `docs/tasks/archived/iteration-NNN-short-name.md`
 
-5. Set the iteration status to `Completed`.
-6. Move the file from `docs/tasks/current/` to `docs/tasks/archived/` without renaming it.
-7. Report the archived path and changelog update.
-8. Suggest the next step based on the remaining work:
+7. Set the iteration status to `Completed`.
+8. Move the file from `docs/tasks/current/` to `docs/tasks/archived/` without renaming it.
+9. Report the archived path and changelog update.
+10. Suggest the next step based on the remaining work:
    - use `pmd-implement` when another current iteration is ready to implement
    - otherwise use `pmd-plan` to plan the next iteration
 

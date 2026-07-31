@@ -93,7 +93,7 @@ Add sections such as dependencies, deferred work, open questions, or completion 
 
 User-visible completed outcomes live in `docs/changelog.md`.
 
-Create or update the changelog only once, after the user approves completion of an iteration.
+Create or update the changelog only once, after the user approves completion of an iteration following the latest readiness report. The request that starts a completion review is not archive approval, even if it asks to approve or archive.
 
 Every changelog entry must reference the archived iteration that delivered it. Do not add planned, speculative, or unfinished work.
 
@@ -111,6 +111,8 @@ Do not update a spec merely because implementation was completed. A spec should 
 Iteration-completion approval is a separate gate handled by `pmd-complete`. An iteration must not be marked `Completed`, added to the changelog, or archived without that approval.
 
 An iteration must not be archived with any unchecked checkbox. A task intentionally removed from scope must be moved to a clearly labeled deferred section as a plain list item or to `docs/inbox.md`.
+
+Before making any completion changes, verify that the iteration has status `Awaiting approval`, still exists only in `docs/tasks/current/`, and has no changelog entry or archived-path reference. If any check fails, stop without changing files; never overwrite an archived iteration or duplicate its changelog entry.
 
 ## Source-of-truth order
 
