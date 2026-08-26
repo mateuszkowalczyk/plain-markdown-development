@@ -5,7 +5,7 @@ A lightweight, agent-assisted workflow for structuring features, planning what c
 ## Flow
 
 ```text
-Requirements → Specs → Iterations → Implementation → Approval → Archive + Changelog
+Requirements → Iteration planning → Implementation → Approval → Archive + Changelog
 ```
 
 Loose ideas, bugs, and questions go to `docs/inbox.md`.
