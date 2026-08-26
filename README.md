@@ -28,7 +28,7 @@ Then use the skills in the following order:
 
 ```text
 pmd-plan       → discuss scope, draft needed specs, create iteration
-pmd-implement  → implement all or selected iteration tasks
+pmd-implement  → implement, verify, and simplify all or selected iteration tasks
 pmd-complete   → verify, request approval, archive and update changelog
 ```
 
@@ -56,4 +56,3 @@ During planning, the agent usually drafts any needed specs from the product requ
 Small bugs, maintenance work, and technical tasks can go directly into an iteration. Multiple current iterations are allowed when useful.
 
 Every iteration checkbox is required for completion. If a task is no longer needed, move it to a clearly labeled deferred section as a plain list item or return it to `docs/inbox.md`.
-
