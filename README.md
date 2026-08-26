@@ -38,6 +38,14 @@ You can just type the skill name or add some context like here:
 Use pmd-plan to plan dark mode implementation
 ```
 
+## Updating
+
+For an existing installation, ask your coding agent:
+
+```text
+Use pmd-update to update PMD in this repository.
+```
+
 ## Structure
 
 ```text

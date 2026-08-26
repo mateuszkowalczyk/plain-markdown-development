@@ -139,6 +139,7 @@ Do not silently resolve meaningful contradictions. Explain them and update the a
 Use the relevant project skill for procedural work:
 
 - `pmd-setup` — initialize the PMD folder and file structure
+- `pmd-update` — update an existing PMD installation while preserving project documentation and non-PMD instructions
 - `pmd-plan` — discuss the scope, draft any needed specs, and plan an iteration
 - `pmd-implement` — implement all or part of an iteration
 - `pmd-complete` — verify, request approval, update changelog, and archive an iteration
@@ -146,6 +147,7 @@ Use the relevant project skill for procedural work:
 After finishing a skill, suggest the appropriate next workflow step:
 
 - setup → restart the agent or start a new session, briefly describe the app requirements in `docs/prd/`, then use `pmd-plan`
+- update → restart the agent or start a new session so it reloads the updated PMD skills and instructions
 - planning → `pmd-implement`
 - implementation with behaviour not covered by or inconsistent with current specs → resolve the gap before continuing by fixing the implementation, or by discussing and drafting the needed spec addition or update and obtaining explicit spec-change approval
 - partial implementation → `pmd-implement` for another part

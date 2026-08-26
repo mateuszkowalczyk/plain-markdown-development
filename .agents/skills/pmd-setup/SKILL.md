@@ -1,11 +1,11 @@
 ---
 name: pmd-setup
-description: Install or update Plain Markdown Development in a repository. Use when the user asks to set up, initialize, install, or upgrade PMD. Creates the documentation structure and safely inserts the PMD instruction block into the user's chosen AGENTS.md, CLAUDE.md, or both.
+description: Install Plain Markdown Development in a repository that does not already have it. Use when the user asks to set up, initialize, or install PMD. Creates the documentation structure and safely inserts the PMD instruction block into the user's chosen AGENTS.md, CLAUDE.md, or both. Use pmd-update for an existing installation.
 ---
 
 # Set up PMD
 
-Initialize or update PMD without replacing the user's existing agent instructions.
+Initialize PMD without replacing the user's existing agent instructions.
 
 ## Required templates
 
@@ -60,7 +60,7 @@ Use this minimal content for `docs/changelog.md`:
 
    - If a selected file does not exist, create it with the complete marked block from `references/agents-instructions.md`.
    - If a selected file exists and has no PMD markers, append the complete marked block after the existing content.
-   - If both PMD markers already exist, replace only the content from `<!-- PMD:START -->` through `<!-- PMD:END -->` with the current template in that file.
+   - If both PMD markers already exist, leave the block unchanged, report that PMD is already installed in that file, and recommend `pmd-update` when the user wants to update it.
    - Preserve all content outside the PMD markers.
    - Never create a second PMD block in either file.
    - Never replace the user's entire instruction file.
@@ -78,7 +78,7 @@ Use this minimal content for `docs/changelog.md`:
 9. Report:
    - directories and files created
    - which instruction file or files were selected
-   - whether each selected PMD block was inserted, updated, or already current
+   - whether each selected PMD block was inserted or already present
    - any potentially stale PMD block found in the unselected instruction file
    - any conflicts requiring user input
 10. After setup finishes without unresolved conflicts, recommend this sequence:
@@ -94,5 +94,5 @@ Running setup repeatedly must be safe:
 
 ```text
 first run   → create structure and insert the PMD block in the selected instruction file or files
-later run   → update only the existing PMD block in each selected instruction file
+later run   → preserve the existing PMD block and recommend pmd-update
 ```
