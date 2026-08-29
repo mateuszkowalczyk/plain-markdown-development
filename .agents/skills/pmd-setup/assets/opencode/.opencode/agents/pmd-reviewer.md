@@ -1,7 +1,6 @@
 ---
 description: Reviews PMD implementation diffs without modifying files
 mode: subagent
-model: "<provider>/<model>#<variant>"
 steps: 40
 permissions:
   - action: "*"

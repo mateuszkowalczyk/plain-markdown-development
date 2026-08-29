@@ -12,7 +12,7 @@ Completion is a two-stage workflow:
 
 Every completion attempt starts with Stage 1. Never treat the request that starts the completion review, even if it asks to approve or archive, as approval to archive. Approval is fresh only when the user gives it after the latest readiness report.
 
-Use the same workflow for single-agent and multi-agent iterations. An `Awaiting approval` status or prior Reviewer `PASS` may indicate that implementation gates succeeded, but never replaces the fresh Stage 1 readiness review or the explicit approval required for Stage 2. Do not load runtime configuration or resume orchestration while completing an iteration.
+An `Awaiting approval` status or prior Reviewer `PASS` may indicate that implementation gates succeeded, but never replaces the fresh Stage 1 readiness review or the explicit approval required for Stage 2. Do not load runtime configuration or resume orchestration while completing an iteration.
 
 ## Stage 1: verify and request approval
 
@@ -61,10 +61,7 @@ Proceed only when the user explicitly approves completing or archiving this iter
 10. Create a final commit with a concise project-appropriate message such as `Complete iteration NNN short name`. The commit is the last repository-changing action in the completion workflow.
 11. If staging or committing fails, stop and report the exact uncommitted completion state. Do not continue to another iteration until the completion commit succeeds.
 12. Report the archived path, changelog update, and commit.
-13. Hand off the next step based on the active workflow:
-   - when completion was started from `pmd-coordinate`, return control to Coordinator so it can continue with the next clear current iteration or `pmd-plan`
-   - otherwise use `pmd-implement` when another current iteration is ready to implement
-   - otherwise use `pmd-plan` to plan the next iteration
+13. Return control to Coordinator so it can continue with the next clear current iteration or invoke `pmd-plan`.
 
 ## Changelog format
 

@@ -1,7 +1,6 @@
 ---
 description: Guides a PMD project across planning, serial execution, review, completion, and subsequent iterations
 mode: primary
-model: "<provider>/<model>#<variant>"
 steps: 80
 permissions:
   - action: edit

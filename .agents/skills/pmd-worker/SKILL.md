@@ -1,6 +1,6 @@
 ---
 name: pmd-worker
-description: Implement and directly validate one assigned execution group from a multi-agent PMD iteration. Use only when a Coordinator delegates a defined execution group; do not use for single-agent iteration implementation or PMD lifecycle management.
+description: Implement and directly validate one assigned PMD execution group. Use only when Coordinator delegates a defined execution group; do not use for lifecycle management or direct user implementation requests.
 ---
 
 # Implement an execution group
@@ -13,7 +13,7 @@ Before changing files:
 
 1. Read the assigned execution group, its task IDs, dependencies, acceptance criteria, and manual-validation notes.
 2. Read the full current iteration and all relevant referenced specs, PRDs, repository instructions, code, and tests.
-3. Read `docs/agent-policy.md` when it exists.
+3. Require and read `docs/agent-policy.md`. If it is missing, return `BLOCKED`; Worker must not operate with implicit decision boundaries.
 4. Confirm that dependencies the Coordinator identifies as prerequisites are satisfied and that the assigned scope is actionable.
 
 If the assignment, required behaviour, or dependency state is ambiguous enough to change the implementation materially, return `BLOCKED` or `DECISION_REQUIRED`; do not silently expand or reinterpret the scope.
@@ -27,7 +27,7 @@ If the assignment, required behaviour, or dependency state is ambiguous enough t
 5. Report implementation-specific preparation or setup that will help the Coordinator conduct planned manual validation.
 6. Return one semantic outcome using the contract below.
 
-Do not perform the separate PMD simplification review. In multi-agent mode that review belongs to `pmd-review`, which may return focused changes for a later Worker pass. Ordinary implementation judgment and small local refactors required to complete the assignment are still allowed.
+Do not perform the separate PMD simplification review. That review belongs to `pmd-review`, which may return focused changes for a later Worker pass. Ordinary implementation judgment and small local refactors required to complete the assignment are still allowed.
 
 When addressing `CHANGES_REQUIRED`, limit the new pass to the Reviewer's actionable findings, rerun relevant direct validation, and return a fresh result to Coordinator.
 

@@ -1,7 +1,6 @@
 ---
 description: Implements and directly validates one PMD execution group without updating iteration state
 mode: subagent
-model: "<provider>/<model>#<variant>"
 steps: 60
 permissions:
   - action: subagent

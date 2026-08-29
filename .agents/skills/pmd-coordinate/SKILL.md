@@ -1,9 +1,9 @@
 ---
 name: pmd-coordinate
-description: Guide an ongoing multi-agent PMD project across planning, serial iteration execution, review, completion, and the next iteration. Use when the user asks to run or continue coordinated PMD work. Never implement technical work directly or bypass another skill's approval gates.
+description: Guide an ongoing PMD project across planning, serial iteration execution, review, completion, and the next iteration. Use when the user asks to run, implement, or continue PMD work. Never implement technical work directly or bypass another skill's approval gates.
 ---
 
-# Coordinate a multi-agent project
+# Coordinate a PMD project
 
 Own the ongoing coordinated project workflow and its process state across iterations. Within each iteration, delegate technical planning to Planner, implementation to the configured Worker profile, and independent review to Reviewer. Keep user interaction and transitions between workflow skills centralized in Coordinator while minimizing the work required from the user.
 
@@ -20,12 +20,12 @@ Core PMD defines role contracts and durable Markdown state, not a particular CLI
 
 ## Start and preflight
 
-1. Inspect `docs/tasks/current/` and `docs/tasks/archived/`, then identify the current iteration the user selected or the next actionable planned multi-agent iteration. When multiple candidates exist and the choice is not already clear, ask the user which one to continue. When no actionable current iteration exists but the next scope is clear, use the cross-iteration procedure below to invoke `pmd-plan` instead of inventing work.
+1. Inspect `docs/tasks/current/` and `docs/tasks/archived/`, then identify the current iteration the user selected or the next actionable planned iteration. When multiple candidates exist and the choice is not already clear, ask the user which one to continue. When no actionable current iteration exists but the next scope is clear, use the cross-iteration procedure below to invoke `pmd-plan` instead of inventing work.
 2. Read all referenced specs, relevant PRDs, repository instructions, and other sources needed to route the work.
 3. Read `.agents/pmd-runtime.md` or the runtime configuration explicitly selected by the user. It must define a Planner, one or more Worker profiles, and a Reviewer.
-4. Read `docs/agent-policy.md` when it exists.
+4. Require and read `docs/agent-policy.md`. If it is missing, stop coordinated work and use `pmd-setup` to complete PMD configuration; do not continue with implicit decision boundaries.
 5. Check for unrelated uncommitted changes or another condition that makes an execution group's implementation diff ambiguous. Apply any isolation or checkpoint requirement documented by the selected runtime integration; if reliable review is not possible, stop and report the problem.
-6. Validate the execution plan using the multi-agent readiness test in `pmd-plan`.
+6. Validate the execution plan using the readiness test in `pmd-plan`.
 
 If runtime configuration is missing or a configured role/profile cannot be invoked, report the exact problem. Do not silently substitute a different Worker profile, CLI, provider, or model unless the runtime configuration explicitly declares that fallback.
 
@@ -112,7 +112,7 @@ The final Reviewer result and the automatic handoff to `pmd-complete` are not ar
 After `pmd-complete` archives and commits an iteration, return to the coordinated project loop:
 
 1. Summarize the completed iteration and inspect remaining current iterations and known requirement or inbox work.
-2. If another current multi-agent iteration is already planned and its priority is clear, coordinate it next without asking for a procedural handoff.
+2. If another current iteration is already planned and its priority is clear, coordinate it next without asking for a procedural handoff.
 3. Otherwise, when the next scope is clear from approved requirements or inbox work, invoke Planner through `pmd-plan`, then continue into coordinated implementation after the plan is ready.
 4. Pause when planning requires a spec mutation, scope or behaviour decision, protected decision, or a choice between materially different next iterations. Ask only for that decision and preserve all normal approval gates.
 5. Repeat the execution → review → readiness review → approved completion and commit → next-iteration loop until the user stops, a required decision is pending, or no further work is identified.
@@ -133,4 +133,4 @@ Coordinator owns cross-iteration workflow guidance, process routing, dependency 
 
 When policy does not clearly assign a meaningful decision, ask the user rather than silently broadening a role's authority.
 
-If the user asks to add an agent policy, use [references/agent-policy.md](references/agent-policy.md) as a starting point and adapt it to the repository. The policy is optional; never create it automatically as part of coordination or setup.
+Use [references/agent-policy.md](references/agent-policy.md) as the default policy source. Setup must summarize it, ask the user for changes, and create `docs/agent-policy.md`; Coordinator must not silently invent or omit the policy.

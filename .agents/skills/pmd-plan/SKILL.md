@@ -1,11 +1,11 @@
 ---
 name: pmd-plan
-description: Plan or replan a Markdown iteration from selected requirements, with an optional multi-agent execution plan. Use when the user or a PMD Coordinator asks to create, scope, or technically replan an iteration. Obtain explicit approval before changing specs and never implement code.
+description: Plan or replan a coordinated Markdown iteration from selected requirements. Use when the user or PMD Coordinator asks to create, scope, or technically replan an iteration. Obtain explicit approval before changing specs and never implement code.
 ---
 
 # Plan an iteration
 
-Create an iteration containing only the selected scope. Preserve the minimal single-agent format unless multi-agent planning is requested or a Coordinator delegates planning for a coordinated workflow.
+Create an iteration containing only the selected scope and a complete execution plan for Coordinator.
 
 Planner owns the technical implementation plan: task decomposition, dependencies, execution grouping, acceptance criteria, manual-validation design, and Worker-profile assignment. Planner does not implement code or own execution state.
 
@@ -13,12 +13,12 @@ Planner owns the technical implementation plan: task decomposition, dependencies
 
 1. Inspect `docs/tasks/current/` and `docs/tasks/archived/` to determine the next iteration number, or locate the current iteration when replanning.
 2. Read the PRDs, specs, inbox entries, bug context, repository instructions, code, and tests relevant to the selected scope.
-3. Read `docs/agent-policy.md` when it exists.
+3. Require and read `docs/agent-policy.md`. If it is missing, report planning as blocked and direct setup through `pmd-setup`; do not assume decision boundaries.
 4. Decide whether each item needs a spec:
    - meaningful product behaviour should normally have a spec
    - small bugs, maintenance, refactors, research, and technical work may go directly into an iteration
 5. When required behaviour is missing or unclear:
-   - discuss it with the user, normally through Coordinator in multi-agent mode
+   - discuss it with the user through Coordinator
    - use the discussion, requirements, and repository context to draft the spec
    - present the proposed creation, change, deletion, or rename
    - obtain explicit user approval before modifying any file in `docs/specs/`
@@ -31,37 +31,9 @@ Planner owns the technical implementation plan: task decomposition, dependencies
 
 Do not implement code. Spec-change approval permits only the proposed spec mutation and is separate from completion approval handled by `pmd-complete`.
 
-## Single-agent plan
+## Execution plan
 
-Use the minimal format by default:
-
-```markdown
-# Iteration NNN — <Short descriptive name>
-
-**Status:** Planned
-
-## Sources
-
-- `docs/specs/<spec>.md`
-- `docs/prd/<prd>.md`
-
-## Tasks
-
-### <Sensible group>
-
-- [ ] <Small, verifiable task>
-- [ ] <Small, verifiable task>
-```
-
-`Sources` may be omitted when no document reference is useful. Add dependencies, deferred work, open questions, or notes only when they provide real value. Every checkbox is required for iteration completion, so deferred work must use plain list items rather than checkboxes.
-
-Do not add task IDs, execution groups, Worker profiles, or manual-validation sections merely because PMD supports them. When planning is complete, suggest `pmd-implement`.
-
-## Multi-agent execution plan
-
-When multi-agent planning is requested:
-
-1. Read `.agents/pmd-runtime.md` or the runtime configuration identified by Coordinator.
+1. Read `.agents/pmd-runtime.md` or the runtime configuration identified by Coordinator. If no usable runtime exists, report planning as blocked and direct setup through `pmd-setup`.
 2. Identify the configured Worker profiles and their documented capabilities. Runtime configuration owns profile-to-CLI, provider, and model mappings.
 3. Give every task a stable `TNN` ID and place every task in exactly one execution group with a stable `ENN` ID.
 4. Group tasks by coherent implementation context. One group may contain one task, several tasks, or the entire iteration; task granularity does not dictate agent-invocation granularity.
@@ -110,7 +82,7 @@ Do not invent a Worker profile that is absent from runtime configuration. If a n
 
 When planning is complete, suggest `pmd-coordinate`.
 
-## Replanning in multi-agent mode
+## Replanning
 
 Replan when Coordinator reports an invalid technical premise, dependency, grouping, acceptance criterion, manual-validation plan, or Worker capability assignment.
 
@@ -128,9 +100,10 @@ Every iteration is ready only when:
 - tasks are reasonably small
 - selected scope is distinguishable from deferred work
 
-A multi-agent iteration is ready only when it also satisfies all of the following:
+An iteration is ready only when it also satisfies all of the following:
 
 - task IDs and execution-group IDs are present, unique, and stable
+- `docs/agent-policy.md` exists and defines project decision boundaries
 - every task belongs to exactly one execution group
 - every execution group contains at least one task
 - all dependency references resolve and the dependency graph has no cycle

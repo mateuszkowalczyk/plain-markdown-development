@@ -1,9 +1,9 @@
 ---
 name: pmd-review
-description: Independently review one execution group or a completed multi-agent PMD iteration for correctness, validation, scope, and simplification. Use when a Coordinator requests review; report findings without implementing fixes by default.
+description: Independently review one execution group or a completed PMD iteration for correctness, validation, scope, and simplification. Use when Coordinator requests review; report findings without implementing fixes by default.
 ---
 
-# Review multi-agent implementation
+# Review implementation
 
 Act as the independent Reviewer after a Worker has completed direct validation. Review either the assigned execution group or, when explicitly requested, the whole iteration.
 
@@ -12,7 +12,7 @@ Act as the independent Reviewer after a Worker has completed direct validation. 
 Before deciding an outcome:
 
 1. Read the current iteration, the assigned execution group and task IDs, its dependencies, acceptance criteria, and planned manual validation.
-2. Read relevant specs, PRDs, repository instructions, Planner guidance, and `docs/agent-policy.md` when present.
+2. Read relevant specs, PRDs, repository instructions, Planner guidance, and required `docs/agent-policy.md`. If the policy is missing, report `DECISION_REQUIRED` to Coordinator rather than reviewing under implicit boundaries.
 3. Inspect the complete implementation diff for the review boundary, including tests and documentation. Do not review only the Worker's summary.
 4. Consider relevant surrounding code needed to identify regressions, unnecessary complexity, or missing coverage.
 

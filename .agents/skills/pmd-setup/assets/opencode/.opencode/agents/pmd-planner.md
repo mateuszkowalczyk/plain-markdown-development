@@ -1,7 +1,6 @@
 ---
 description: Creates and revises technical PMD execution plans without implementing code
 mode: subagent
-model: "<provider>/<model>#<variant>"
 steps: 40
 permissions:
   - action: edit

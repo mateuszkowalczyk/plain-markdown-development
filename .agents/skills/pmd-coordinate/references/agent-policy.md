@@ -1,6 +1,6 @@
 # PMD Agent Policy
 
-This optional policy adds project-specific decision boundaries to PMD. Keep only rules that matter for this repository. PMD's mandatory spec-change and iteration-completion approvals still apply whether or not this file exists.
+This policy defines project-specific decision boundaries for PMD's coordinated workflow. Every PMD project requires it. Adapt the rules to the repository; PMD's mandatory spec-change and iteration-completion approvals still apply and cannot be removed by this policy.
 
 ## Require user decision
 
