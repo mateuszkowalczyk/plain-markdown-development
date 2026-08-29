@@ -24,13 +24,13 @@ The four agent files are prompts and native OpenCode v2 configuration. The runti
 4. Copy `examples/pmd-runtime.md` to `.agents/pmd-runtime.md` and adapt the profile names, commands, and capability descriptions.
 5. Optionally copy `.agents/skills/pmd-coordinate/references/agent-policy.md` to `docs/agent-policy.md` and remove or revise rules that do not fit the project.
 6. Commit the iteration plan, runtime configuration, agent configuration, and any policy before starting the first execution group.
-7. Start `opencode2`, select `pmd-coordinator` with `/agents`, and ask it to coordinate the selected current iteration.
+7. Start `opencode2`, select `pmd-coordinator` with `/agents`, and ask it to coordinate the project or a selected current iteration.
 
 OpenCode reads agent files directly. PMD runtime Markdown is deliberately not parsed by a plugin: Coordinator reads it as instructions and uses the named subagent or synchronous command.
 
 ## Runtime roles
 
-- `pmd-coordinator` is a primary agent. It may update current iteration state, invoke only the three PMD subagents, run the configured external Codex Worker, and create local checkpoint commits. Its prompt forbids technical implementation and archive work.
+- `pmd-coordinator` is a primary agent. It guides the project across iterations, may update iteration state, invoke only the three PMD subagents, run the configured external Codex Worker, create local checkpoint commits, and transition automatically into completion and subsequent planning. Its prompt forbids technical implementation and restricts changelog/archive edits to the separately approved completion procedure.
 - `pmd-planner` is a subagent that may update current iteration plans. Spec edits still require explicit user approval routed through Coordinator.
 - `pmd-worker` is an OpenCode-native Worker profile. It may implement code and run direct checks but is denied edits to PMD state, requirements, specs, policy, and changelog.
 - `pmd-reviewer` is a read-only subagent. Its permissions allow repository reads, the `pmd-review` skill, and Git inspection commands while denying edits and general shell execution.
@@ -71,6 +71,6 @@ Reviewer is deliberately read-only in this reference configuration. It assesses 
 
 Make manual-validation instructions directly observable. When acceptance depends on the exit status or on distinguishing stdout from stderr, include a copy-pasteable capture command rather than asking the user to infer those details from ordinary console output. Project-generated validation artifacts such as Python `__pycache__` directories should be ignored or removed before clean-worktree and checkpoint gates.
 
-After all groups complete, Coordinator requests a whole-iteration Reviewer pass, sets `Awaiting approval` only after `PASS`, and directs the user to `pmd-complete`. That skill performs a fresh readiness review and owns the only archive/changelog path.
+After all groups complete, Coordinator requests a whole-iteration Reviewer pass and sets `Awaiting approval` only after `PASS`. It then starts `pmd-complete` Stage 1 automatically. That handoff is not archive approval: the completion skill performs a fresh readiness review and requests concise explicit approval before using its archive/changelog permissions. Approved completion ends with an isolated iteration commit. Coordinator then continues automatically with another clearly selected planned iteration or `pmd-plan`, pausing only for a required approval, decision, priority choice, or manual-validation result.
 
 See the [MVP dogfood report](dogfood-report.md) for an end-to-end exercise of native and external Workers, replanning, review correction, manual validation, and completion.

@@ -33,7 +33,7 @@ Then use the simple workflow:
 ```text
 pmd-plan       → discuss scope, draft needed specs, create iteration
 pmd-implement  → implement, verify, and simplify all or selected iteration tasks
-pmd-complete   → verify, request approval, archive and update changelog
+pmd-complete   → verify, request approval, archive, update changelog, and commit
 ```
 
 You can just type the skill name or add some context like here:
@@ -50,26 +50,16 @@ Multi-agent PMD is useful when an iteration benefits from stronger separation be
 
 It separates four logical roles:
 
-- **Coordinator** owns process state, routing, user interaction, manual validation, and task checkbox updates.
+- **Coordinator** guides the project across iterations, owns process state and routing, conducts user validation, updates task state, and invokes the next workflow stage whenever no user decision is required.
 - **Planner** owns technical planning, dependencies, execution grouping, acceptance criteria, and Worker-profile assignment.
 - **Worker** implements and directly validates an assigned execution group without changing PMD task state.
-- **Reviewer** independently checks correctness, tests, scope, maintainability, and simplification without implementing fixes by default.
+- **Reviewer** independently checks correctness, tests, scope, maintainability, and looks for simplifications without implementing fixes by default.
 
 Planner adds stable task IDs and an optional `Execution plan` to the iteration. Small PMD tasks remain independently verifiable, but one execution group—and therefore one Worker invocation—may cover one task, several related tasks, or the entire iteration. Groups may depend on other groups.
 
 Every execution group names a Worker profile from runtime configuration. A profile maps a user-chosen label such as `default`, `strong`, or `frontend` to a CLI, provider, model, or native subagent. PMD does not prescribe those mappings. Planner selects the profile from expected difficulty and capability needs; Coordinator must not silently replace that choice.
 
-The coordinated loop is:
-
-```text
-Worker implementation + direct validation
-    → Reviewer correctness + simplification review
-    → Coordinator-led manual validation when required
-    → task state update
-    → next execution group
-```
-
-After a fresh whole-iteration review, Coordinator sets `Awaiting approval` and directs the user to the same `pmd-complete` approval and archive workflow used by single-agent PMD.
+After a fresh whole-iteration review, Coordinator automatically starts the same `pmd-complete` readiness workflow used by single-agent PMD. It asks for a short explicit approval only when the iteration is ready to archive. Once approved, `pmd-complete` updates the changelog, archives the iteration, and creates its final commit. Coordinator then continues with the next clearly selected iteration or invokes `pmd-plan` for clear remaining work. When a real decision is required, it asks concisely—preferably with an available question tool—without requiring the user to know or type skill names.
 
 Core PMD requires no custom orchestration application, database, daemon, message queue, background Worker, or worktree. Runtime integration is optional and provider/model choices remain configurable. See the [OpenCode v2 reference integration](integrations/opencode/README.md) for a serial setup with one OpenCode-native Worker profile, one external Codex CLI profile, read-only Reviewer permissions, and Git checkpoint commits. Its [MVP dogfood report](integrations/opencode/dogfood-report.md) records a completed end-to-end exercise.
 
