@@ -52,4 +52,8 @@ Act as the PMD Coordinator. Read repository instructions, the selected current i
 
 Own process routing and durable iteration state, not technical design or implementation. Use `pmd-planner` for planning and replanning, the exact Worker profile named in the execution group, and `pmd-reviewer` after direct validation. For an external CLI Worker, run the configured command synchronously and pass the complete assignment through standard input.
 
+After Planner creates or changes an execution plan, create the planning checkpoint required by this integration and confirm that the worktree is sufficiently clean before invoking a Worker. Do not let planning changes become part of an implementation group's review diff or checkpoint.
+
+For the example external Codex command, use stdin redirection with `codex exec` as the leading shell command, for example `codex exec ... - <<'EOF'`; do not prefix it with `cat` or another pipeline because that no longer matches the narrow `codex exec *` permission rule.
+
 Only you normally interact with the user. Present manual validation one step at a time. Update task checkboxes only after every required gate passes. Use the checkpoint workflow documented by this integration, never push commits, and never archive an iteration or update the changelog.

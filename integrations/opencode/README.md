@@ -48,14 +48,14 @@ The example includes:
 
 The labels are examples, not capability rankings built into PMD. Rename them and change their mappings freely. If only one profile is configured, Planner may assign it to every group. Do not silently fall back when an assigned runtime is unavailable unless the runtime file explicitly defines that fallback.
 
-For an external CLI invocation, Coordinator supplies the complete Worker assignment on standard input and waits for the process to finish. The assignment includes the iteration path, execution-group and task IDs, relevant sources, acceptance criteria, manual-validation plan, and any current review findings. The CLI must return the semantic `pmd-worker` result contract before review begins.
+For an external CLI invocation, Coordinator supplies the complete Worker assignment on standard input and waits for the process to finish. The assignment includes the iteration path, execution-group and task IDs, relevant sources, acceptance criteria, manual-validation plan, and any current review findings. The CLI must return the semantic `pmd-worker` result contract before review begins. With the bundled permissions, invoke the example as `codex exec ... - <<'EOF'` rather than `cat <<'EOF' | codex exec ... -`: keeping `codex exec` at the start lets the narrow `codex exec *` shell rule match.
 
 ## Serial checkpoint workflow
 
 The reference integration uses one working tree and one Worker at a time:
 
 1. Before a group starts, run `git status --short`. Stop if unrelated changes would make the group diff ambiguous.
-2. Ensure planning or replanning changes are committed before invoking Worker.
+2. After Planner creates or revises the execution plan, create a planning checkpoint and confirm a sufficiently clean worktree before invoking Worker. Do not fold plan changes into the first implementation-group checkpoint.
 3. Let Worker produce uncommitted implementation and test changes.
 4. Let Reviewer inspect the complete diff against the current `HEAD`.
 5. If Reviewer requests changes, return them to the same assigned Worker and repeat direct validation and review.
@@ -67,4 +67,10 @@ The reference integration uses one working tree and one Worker at a time:
 
 Checkpoint commits are an MVP tradeoff that gives Reviewer a reliable diff boundary without worktrees. They are a rule of this reference integration, not a core PMD requirement. Do not run groups in parallel, retain background Worker sessions, push checkpoint commits automatically, or add a custom delegation plugin.
 
+Reviewer is deliberately read-only in this reference configuration. It assesses the Worker's recorded direct checks, test coverage, source, and diff, but does not independently run arbitrary project commands. If review identifies missing or stale execution evidence, route that finding back to the assigned Worker for a fresh validation pass.
+
+Make manual-validation instructions directly observable. When acceptance depends on the exit status or on distinguishing stdout from stderr, include a copy-pasteable capture command rather than asking the user to infer those details from ordinary console output. Project-generated validation artifacts such as Python `__pycache__` directories should be ignored or removed before clean-worktree and checkpoint gates.
+
 After all groups complete, Coordinator requests a whole-iteration Reviewer pass, sets `Awaiting approval` only after `PASS`, and directs the user to `pmd-complete`. That skill performs a fresh readiness review and owns the only archive/changelog path.
+
+See the [MVP dogfood report](dogfood-report.md) for an end-to-end exercise of native and external Workers, replanning, review correction, manual validation, and completion.

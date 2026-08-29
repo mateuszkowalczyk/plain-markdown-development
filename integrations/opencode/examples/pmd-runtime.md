@@ -19,7 +19,7 @@ Capabilities: General implementation and direct validation in the current reposi
 
 Type: CLI
 Command: `codex exec --sandbox workspace-write -C . -`
-Input: Pass the complete Worker assignment through standard input.
+Input: Pass the complete Worker assignment through standard input. In the reference OpenCode agent, keep `codex exec` as the leading shell command and use stdin redirection rather than a `cat` pipeline so the narrow shell permission matches.
 Model: Configure in Codex or add `--model <model>` to the command.
 Capabilities: Work requiring the external CLI's configured coding and reasoning capability.
 
@@ -34,3 +34,4 @@ Mode: Serial
 External CLI: Synchronous; wait for its final result before invoking Reviewer.
 Fallbacks: None. Report an unavailable assigned profile to the user.
 Git isolation: Use serial checkpoint commits after accepted execution groups.
+Planning isolation: Commit every new or revised execution plan and confirm a sufficiently clean worktree before invoking the first affected Worker.

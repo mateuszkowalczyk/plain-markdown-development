@@ -71,7 +71,7 @@ Worker implementation + direct validation
 
 After a fresh whole-iteration review, Coordinator sets `Awaiting approval` and directs the user to the same `pmd-complete` approval and archive workflow used by single-agent PMD.
 
-Core PMD requires no custom orchestration application, database, daemon, message queue, background Worker, or worktree. Runtime integration is optional and provider/model choices remain configurable. See the [OpenCode v2 reference integration](integrations/opencode/README.md) for a serial setup with one OpenCode-native Worker profile, one external Codex CLI profile, read-only Reviewer permissions, and Git checkpoint commits.
+Core PMD requires no custom orchestration application, database, daemon, message queue, background Worker, or worktree. Runtime integration is optional and provider/model choices remain configurable. See the [OpenCode v2 reference integration](integrations/opencode/README.md) for a serial setup with one OpenCode-native Worker profile, one external Codex CLI profile, read-only Reviewer permissions, and Git checkpoint commits. Its [MVP dogfood report](integrations/opencode/dogfood-report.md) records a completed end-to-end exercise.
 
 Projects may optionally copy the bundled [agent policy template](.agents/skills/pmd-coordinate/references/agent-policy.md) to `docs/agent-policy.md` and adapt additional protected decision boundaries. Setup does not create this file or runtime configuration automatically.
 
