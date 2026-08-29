@@ -4,17 +4,19 @@ This reference integration runs PMD with OpenCode as Coordinator while keeping t
 
 The examples target the OpenCode 2 beta syntax verified on 2026-08-29. OpenCode v2 uses project agents under `.opencode/agents/`, Markdown bodies as agent instructions, and ordered `permissions` rules with the `shell` and `subagent` action names. Because v2 is still changing, compare the examples with the current [agents](https://opencode.ai/v2/docs/agents), [permissions](https://opencode.ai/v2/docs/permissions), and [CLI](https://opencode.ai/v2/docs/cli) documentation before adopting them.
 
-## Included files
+## Configuration source
 
 ```text
-.opencode/agents/pmd-coordinator.md
-.opencode/agents/pmd-planner.md
-.opencode/agents/pmd-worker.md
-.opencode/agents/pmd-reviewer.md
-examples/pmd-runtime.md
+.agents/skills/pmd-setup/assets/opencode/
+├── .agents/pmd-runtime.md
+└── .opencode/agents/
+    ├── pmd-coordinator.md
+    ├── pmd-planner.md
+    ├── pmd-worker.md
+    └── pmd-reviewer.md
 ```
 
-The four agent files are prompts and native OpenCode v2 configuration. The runtime file is human- and agent-readable Markdown that maps PMD roles and Worker profiles to runtime mechanisms.
+These setup assets are the single source of truth for the reference integration. The four agent files are prompts and native OpenCode v2 configuration; they inherit the active OpenCode model. The runtime file is human- and agent-readable Markdown that maps PMD roles and Worker profiles to runtime mechanisms.
 
 ## Install the reference configuration
 
@@ -23,12 +25,11 @@ The recommended path is to run `pmd-setup` and confirm that the project uses Ope
 For manual installation:
 
 1. Complete normal PMD installation first.
-2. Merge this integration's `.opencode/agents/` directory into the consumer repository's `.opencode/agents/` directory. Preserve any existing OpenCode configuration.
-3. Replace each `<provider>/<model>#<variant>` placeholder with a configured OpenCode model, or remove the `model` field to inherit the active model.
-4. Copy `examples/pmd-runtime.md` to `.agents/pmd-runtime.md` and adapt the profile names, commands, and capability descriptions.
-5. Create required `docs/agent-policy.md` from `.agents/skills/pmd-coordinate/references/agent-policy.md` and adapt it to the project without removing mandatory PMD approvals.
-6. Commit the runtime configuration, agent configuration, and policy before planning the first execution group.
-7. Start `opencode2`, select `pmd-coordinator` with `/agents`, and ask it to coordinate the project or a selected current iteration.
+2. Merge `.agents/skills/pmd-setup/assets/opencode/.opencode/agents/` into the consumer repository's `.opencode/agents/`. Preserve existing OpenCode configuration.
+3. Copy `.agents/skills/pmd-setup/assets/opencode/.agents/pmd-runtime.md` to `.agents/pmd-runtime.md` and adapt the profile names, commands, and capability descriptions.
+4. Create required `docs/agent-policy.md` from `.agents/skills/pmd-coordinate/references/agent-policy.md` and adapt it to the project without removing mandatory PMD approvals.
+5. Commit the runtime configuration, agent configuration, and policy before planning the first execution group.
+6. Start `opencode2`, select `pmd-coordinator` with `/agents`, and ask it to coordinate the project or a selected current iteration.
 
 OpenCode reads agent files directly. PMD runtime Markdown is deliberately not parsed by a plugin: Coordinator reads it as instructions and uses the named subagent or synchronous command.
 
