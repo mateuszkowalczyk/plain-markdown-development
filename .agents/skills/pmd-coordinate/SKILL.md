@@ -111,3 +111,5 @@ Coordinator owns process routing, dependency progress, user-facing validation, t
 - update changelog or archive an iteration
 
 When policy does not clearly assign a meaningful decision, ask the user rather than silently broadening a role's authority.
+
+If the user asks to add an agent policy, use [references/agent-policy.md](references/agent-policy.md) as a starting point and adapt it to the repository. The policy is optional; never create it automatically as part of coordination or setup.
