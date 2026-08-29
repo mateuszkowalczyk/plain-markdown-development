@@ -1,6 +1,6 @@
 ---
 name: pmd-complete
-description: Verify that a current iteration is ready to finish, request explicit user approval, and after approval update the changelog, archive the iteration, and commit its completed work. Use when the user asks to review, finish, approve, close, or archive an iteration.
+description: Verify that a current iteration is ready to finish, request explicit user approval, and after approval update the changelog, archive the iteration, and commit its completed work. Use only when PMD Coordinator invokes the completion workflow after implementation review.
 ---
 
 # Complete an iteration

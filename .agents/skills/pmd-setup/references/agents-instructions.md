@@ -170,11 +170,11 @@ Use the relevant project skill for procedural work:
 
 - `pmd-setup` — initialize PMD and configure its required policy, runtime, and provider files
 - `pmd-update` — update an existing PMD installation while preserving project documentation and non-PMD instructions
-- `pmd-plan` — discuss the scope, draft any needed specs, and create a coordinated execution plan
+- `pmd-coordinate` — the user-facing entrypoint for planning, implementation, review, completion, and subsequent iterations
+- `pmd-plan` — when delegated by Coordinator, discuss the scope, draft any needed specs, and create a coordinated execution plan
 - `pmd-worker` — implement and directly validate one Coordinator-assigned execution group without simplifying or updating PMD state
 - `pmd-review` — independently review an execution group or whole iteration, including mandatory simplification review
-- `pmd-coordinate` — guide the coordinated project across serial execution, review, completion handoff, and next-iteration planning
-- `pmd-complete` — verify, request approval, update changelog, archive an iteration, and commit its completed work
+- `pmd-complete` — when invoked by Coordinator, verify, request approval, update changelog, archive an iteration, and commit its completed work
 
 After finishing a skill, suggest the appropriate next workflow step:
 

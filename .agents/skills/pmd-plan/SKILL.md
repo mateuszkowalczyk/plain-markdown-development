@@ -1,6 +1,6 @@
 ---
 name: pmd-plan
-description: Plan or replan a coordinated Markdown iteration from selected requirements. Use when the user or PMD Coordinator asks to create, scope, or technically replan an iteration. Obtain explicit approval before changing specs and never implement code.
+description: Plan or replan a coordinated Markdown iteration from selected requirements. Use only when PMD Coordinator delegates creation, scoping, or technical replanning. Return protected decisions through Coordinator, obtain explicit approval before changing specs, and never implement code.
 ---
 
 # Plan an iteration

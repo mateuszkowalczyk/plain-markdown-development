@@ -1,6 +1,6 @@
 ---
 name: pmd-coordinate
-description: Guide an ongoing PMD project across planning, serial iteration execution, review, completion, and the next iteration. Use when the user asks to run, implement, or continue PMD work. Never implement technical work directly or bypass another skill's approval gates.
+description: Guide an ongoing PMD project across planning, serial execution, review, completion, and subsequent iterations. Use for user requests to plan, implement, review, finish, approve, close, archive, or continue PMD work. Never implement technical work directly or bypass another skill's approval gates.
 ---
 
 # Coordinate a PMD project

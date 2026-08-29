@@ -26,7 +26,7 @@ Then ask the agent to coordinate the project:
 Use pmd-coordinate to implement the requirements.
 ```
 
-Coordinator leads the user through planning, implementation, review, required approvals, completion, and subsequent iterations. The user does not need to invoke individual workflow skills.
+Coordinator is the single user-facing workflow entrypoint. It leads the user through planning, implementation, review, required approvals, completion, and subsequent iterations; the other workflow skills are invoked internally.
 
 ## How coordination works
 
