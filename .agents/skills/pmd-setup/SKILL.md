@@ -22,6 +22,21 @@ The first contains the complete PMD instruction block between:
 <!-- PMD:END -->
 ```
 
+The distributed `.agents/skills/` directory must include:
+
+```text
+pmd-setup
+pmd-update
+pmd-plan
+pmd-implement
+pmd-worker
+pmd-review
+pmd-coordinate
+pmd-complete
+```
+
+Confirm these sibling skills are present before setup. If any are missing, report an incomplete PMD distribution instead of synthesizing them in the consumer repository.
+
 ## Procedure
 
 1. Inspect the repository structure and its existing `AGENTS.md` and `CLAUDE.md`, if present.
@@ -86,7 +101,9 @@ Use this minimal content for `docs/changelog.md`:
    2. briefly describe the app requirements in a Markdown file under `docs/prd/`
    3. use `pmd-plan` to plan the first or next iteration from those requirements
 
-Do not create product requirements, specs, iterations, tasks, or changelog entries during setup unless explicitly asked.
+Mention that multi-agent PMD is optional. A user who wants it may configure a runtime after the normal installation and use `pmd-coordinate`; ordinary PMD requires neither runtime configuration nor an agent policy.
+
+Do not create product requirements, specs, iterations, tasks, changelog entries, `.agents/pmd-runtime.md`, or `docs/agent-policy.md` during setup unless explicitly asked. Do not add directories to the minimal consumer `docs/` structure for orchestration.
 
 ## Idempotency
 

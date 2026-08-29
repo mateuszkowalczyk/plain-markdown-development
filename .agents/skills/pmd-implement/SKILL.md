@@ -1,11 +1,13 @@
 ---
 name: pmd-implement
-description: Implement, validate, and simplify all or a user-selected part of a current Markdown iteration while keeping task checkboxes and documentation consistent. Use when the user asks to implement an iteration, a task group, specific tasks, or the next unchecked task. May prepare the iteration for approval, but never archives it.
+description: Implement, validate, and simplify all or a user-selected part of a current Markdown iteration in the single-agent PMD workflow. Use for direct implementation requests that do not ask for multi-agent coordination. May prepare the iteration for approval, but never archives it.
 ---
 
 # Implement iteration tasks
 
-Implement only the portion of an iteration requested by the user.
+Implement only the portion of an iteration requested by the user. This is the simple single-agent workflow: the same agent implements, directly validates, performs the simplification review, coordinates manual validation, and updates task state.
+
+Do not require `pmd-worker`, `pmd-review`, a runtime configuration, or an execution plan. When the user asks to run a multi-agent execution plan, use `pmd-coordinate` instead.
 
 ## Supported scopes
 

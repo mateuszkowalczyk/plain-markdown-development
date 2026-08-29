@@ -12,6 +12,8 @@ Completion is a two-stage workflow:
 
 Every completion attempt starts with Stage 1. Never treat the request that starts the completion review, even if it asks to approve or archive, as approval to archive. Approval is fresh only when the user gives it after the latest readiness report.
 
+Use the same workflow for single-agent and multi-agent iterations. An `Awaiting approval` status or prior Reviewer `PASS` may indicate that implementation gates succeeded, but never replaces the fresh Stage 1 readiness review or the explicit approval required for Stage 2. Do not load runtime configuration or resume orchestration while completing an iteration.
+
 ## Stage 1: verify and request approval
 
 1. Read the selected current iteration, referenced specs, relevant PRDs, and implementation.

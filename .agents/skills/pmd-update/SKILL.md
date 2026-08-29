@@ -20,6 +20,7 @@ Preserve:
 - `docs/` and all other project files
 - skills not owned by PMD
 - the existing choice of which instruction files contain PMD
+- user-owned runtime configuration such as `.agents/pmd-runtime.md`
 
 ## Update source
 
@@ -33,7 +34,7 @@ The source must contain:
 
 - `.agents/skills/pmd-setup/references/agents-instructions.md` with exactly one complete PMD marker block
 - valid `.agents/skills/pmd-*/SKILL.md` files whose frontmatter names match their directory names
-- the core `pmd-setup`, `pmd-update`, `pmd-plan`, `pmd-implement`, and `pmd-complete` skills
+- the core `pmd-setup`, `pmd-update`, `pmd-plan`, `pmd-implement`, `pmd-worker`, `pmd-review`, `pmd-coordinate`, and `pmd-complete` skills
 
 Stop without modifying the target if source validation fails.
 
