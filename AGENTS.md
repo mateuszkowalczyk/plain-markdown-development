@@ -15,7 +15,7 @@
 ## Workflow invariants
 
 - Planning may create an iteration but must not implement it; any spec file change requires explicit user approval.
-- Implementation may check tasks and set `Awaiting approval`, but must not update the changelog, archive an iteration, or mark it `Completed`.
+- Coordinator may check tasks and set `Awaiting approval` after the required implementation and review gates, but must not update the changelog, archive an iteration, or mark it `Completed` outside approved `pmd-complete` Stage 2.
 - Completion is two-stage: readiness review is not archive approval. Only explicit approval permits the changelog update, `Completed` status, and move from `docs/tasks/current/` to `docs/tasks/archived/` without renaming. After those changes, `pmd-complete` creates the iteration's final commit as its last repository mutation.
 - Setup must be idempotent: preserve existing files and all selected instruction-file content outside the PMD markers, support installation in `AGENTS.md`, `CLAUDE.md`, or both, leave any unselected instruction file unchanged, report a complete PMD block there as potentially stale or intentionally shared, never duplicate the block, and ask before handling a single unmatched marker or overlapping documentation layout.
 

@@ -1,11 +1,18 @@
 <!-- PMD:START -->
 
-# PRD-driven development workflow
+# Plain Markdown Development workflow
 
-## Documentation structure
+PMD uses Markdown and Git as durable state. Coordinator is the user-facing entrypoint and guides work through:
+
+`Requirements → Planning → Implementation → Review → User validation → Approval → Archive → Next iteration`
+
+The workflow is incremental; a whole PRD does not need to become specs or tasks at once.
+
+## Documentation
 
 ```text
 docs/
+├── agent-policy.md
 ├── inbox.md
 ├── changelog.md
 ├── prd/
@@ -15,175 +22,63 @@ docs/
     └── archived/
 ```
 
-PMD uses one coordinated workflow:
+- **PRDs** describe product intent, user problems, major requirements, and constraints. Change them only when intended requirements change.
+- **Specs** describe currently expected behaviour. Meaningful product behaviour normally requires a spec; small bugs, research, refactors, and maintenance may go directly into an iteration. Every spec creation, edit, rename, or deletion requires explicit user approval.
+- **Inbox** entries are uncommitted ideas, bugs, questions, and risks. Remove one only after it is represented elsewhere or explicitly rejected.
+- **Changelog** entries describe user-visible completed outcomes and reference their archived iteration. Add them only during approved iteration completion.
 
-`PRD → Spec → Planner → Coordinator → Worker → Reviewer → User validation → Approval → Archived iteration`
+Active iterations live in `docs/tasks/current/`; completed iterations live in `docs/tasks/archived/`. Use `iteration-NNN-short-name.md` without renaming it during archival. Multiple current iterations are allowed.
 
-The progression is incremental. A whole PRD does not need to be converted into specs or tasks at once.
+Iteration statuses are `Planned`, `Awaiting approval`, and `Completed`. Use only `[ ]` and `[x]` task checkboxes. Every checkbox is required for completion; record deferred work as plain list items or return it to the inbox.
 
-## Document roles
-
-### PRDs
-
-PRDs live in `docs/prd/`.
-
-They describe product intent, user problems, major features, business requirements, constraints, and high-level acceptance criteria.
-
-PRDs are not implementation plans. Update a PRD only when intended product requirements change.
-
-### Specs
-
-Specs live in `docs/specs/`.
-
-Each spec describes one coherent product capability or system behaviour. Specs describe the currently expected behaviour, not implementation history.
-
-Specs are usually drafted by the agent during iteration planning, based on the product requirements, repository context, and discussion with the user. The user does not need to prepare specs manually.
-
-Specs are required for meaningful product behaviour, but not for every small bug, research task, refactor, or maintenance item.
-
-The agent should discuss unclear behaviour with the user and propose the resulting spec. In any workflow, always obtain explicit spec-change approval from the user before creating, editing, renaming, or deleting a spec.
-
-### Inbox
-
-`docs/inbox.md` is a flat list of loose ideas, bugs, observations, questions, risks, and possible future work.
-
-Inbox entries are possibilities, not requirements or commitments. Do not automatically convert or expand them unless asked.
-
-Remove an inbox entry only after it has been fully represented elsewhere or explicitly rejected.
-
-### Iterations
-
-Active iteration files live in `docs/tasks/current/`.
-
-Completed iteration files live in `docs/tasks/archived/`.
-
-Multiple current iterations may exist at the same time.
-
-Each iteration uses:
-
-`iteration-NNN-short-name.md`
-
-An iteration can contain related or unrelated features, parts of larger features, bugs, technical work, or research.
-
-Task checkboxes may be grouped by feature, work type, subsystem, or any other structure that makes the iteration easy to understand. Bugs may be kept separately or grouped with the affected feature.
-
-Iteration statuses are:
-
-- `Planned`
-- `Awaiting approval`
-- `Completed`
-
-Checkboxes are:
-
-- `[ ]` — incomplete
-- `[x]` — complete
-
-Every checkbox in an iteration is required for completion. Do not use checkboxes for deferred work or custom checkbox states.
-
-Iteration files require:
-
-- title
-- status
-- sources when applicable
-- task checkboxes with stable IDs
-- an execution plan
-
-Add sections such as dependencies, deferred work, open questions, or completion notes only when useful. Record deferred work as plain list items, not checkboxes.
-
-Each task belongs to exactly one execution group, while one execution group may contain one task, several tasks, or the whole iteration. Execution groups have stable IDs, may depend on other groups, and name one Worker profile available in runtime configuration. Group completion is inferred from its task checkboxes; do not introduce a separate execution-group checkbox or custom task state.
-
-Runtime configuration owns all CLI, provider, model, and Worker-profile mappings. PMD does not assume which runtime is stronger or cheaper. Planner selects a configured Worker profile based primarily on expected difficulty and capability requirements. Coordinator must use that profile and must not silently substitute another unless runtime configuration explicitly defines a fallback.
-
-### Changelog
-
-User-visible completed outcomes live in `docs/changelog.md`.
-
-Create or update the changelog only once, after the user approves completion of an iteration following the latest readiness report. The request that starts a completion review is not archive approval, even if it asks to approve or archive.
-
-Every changelog entry must reference the archived iteration that delivered it. Do not add planned, speculative, or unfinished work.
+Every iteration contains a title, status, applicable sources, stable task IDs, and an execution plan. Each task belongs to exactly one stable execution group. A group may contain one or more tasks, depend on other groups, and names exactly one Worker profile from `.agents/pmd-runtime.md`. Runtime configuration owns CLI, provider, model, invocation, and fallback mappings.
 
 ## Roles and decisions
 
-PMD separates four logical roles:
-
-- **Coordinator** owns the ongoing coordinated project workflow across iterations: lifecycle state, routing, dependency progress, user interaction, manual validation, task checkbox updates, and handoffs to completion and next-iteration planning. It does not design or implement the technical solution.
+- **Coordinator** owns lifecycle routing, user interaction, manual validation, task state, completion handoffs, and continuation across iterations. It does not design or implement the technical solution.
 - **Planner** owns technical planning, task decomposition, execution groups, dependencies, acceptance criteria, manual-validation design, and Worker-profile assignment. It never implements code.
-- **Worker** implements and directly validates only its assigned execution group. It does not perform the PMD simplification review and never updates iteration task state.
-- **Reviewer** independently reviews correctness, tests, scope, maintainability, and simplification. It reports findings and does not implement fixes by default.
+- **Worker** implements and directly validates only its assigned execution group. It never updates PMD task state or performs the separate PMD simplification review.
+- **Reviewer** independently reviews correctness, validation, scope, maintainability, and simplification. It reports findings and does not implement fixes by default.
 
-Every PMD project must have `docs/agent-policy.md`. The policy reserves project-specific decisions for the user and assigns ordinary technical decisions to Planner or Worker. Setup creates it from the bundled default after summarizing the boundaries and asking the user for changes. Regardless of policy contents, creating, changing, renaming, or deleting a spec always requires explicit user approval, and completing or archiving an iteration always requires fresh explicit approval through `pmd-complete`.
+Every PMD project requires `docs/agent-policy.md`. It assigns project-specific decisions to the user, Planner, or Worker. Worker and Reviewer return blockers and protected decisions to Coordinator; only Coordinator normally interacts with the user.
 
-Worker and Reviewer return blockers and required decisions to Coordinator. Coordinator routes implementation-planning issues to Planner and protected decisions to the user. Only Coordinator normally interacts with the user throughout the coordinated project loop.
+Coordinator advances through procedural handoffs without asking when no approval, protected decision, ambiguous choice, or user-run validation is required. When input is necessary, ask for the decision or observable result itself, preferably with a question tool or concise short-answer prompt. Never require the user to name another PMD skill.
 
-For required manual validation, Planner defines the expected behaviour, Worker may supply setup notes, Reviewer confirms readiness, and Coordinator presents one actionable step at a time. Coordinator checks tasks only after Worker validation, Reviewer `PASS`, and all required manual validation pass. A failed manual test starts another Worker → Reviewer → manual-validation cycle.
+## Required gates
 
-## Completion rules
-
-A task is complete only when:
-
-- implementation is finished
-- relevant automated tests, linters, type checks, build checks, agent-performed validation, and other checks pass at the workflow's required gates
-- the implementation and directly related code have passed the workflow's simplification review, with safe simplifications applied
-- any meaningful simplification tradeoff has been decided by the user
-- any required user-run manual validation passes
-- acceptance criteria are satisfied
-- affected documentation is consistent
-
-Worker implements and directly validates without a separate simplification pass. Reviewer performs the mandatory correctness, validation, scope, maintainability, and simplification review. Coordinator then conducts any manual validation and updates task state. Reviewer must explicitly state when no meaningful simplification exists.
-
-After the whole-iteration review passes, Coordinator automatically follows `pmd-complete` Stage 1. That procedural handoff is not archive approval: `pmd-complete` performs a fresh readiness review and asks concisely for explicit approval before changing the changelog or archive. After approved completion, it stages only iteration-related work and creates the iteration's final commit as the last repository mutation. Coordinator then automatically continues with another clearly prioritized planned iteration or uses `pmd-plan` for clear remaining work.
-
-Coordinator minimizes user effort. It invokes applicable skills and advances between procedural stages without asking when no approval or choice is required. When a spec change, archive approval, protected decision, ambiguous priority, or user-run validation requires input, Coordinator uses an available question tool when practical or asks for a short answer such as yes/no. It asks for the decision itself, not for the user to type a skill name. General consent to continue never substitutes for a required approval.
-
-Keep simplification related to the selected implementation rather than expanding it into unrelated cleanup. Do not silently choose a simplification that trades off behaviour, scope, compatibility, performance, maintainability, or risk; return the decision through the workflow and wait for the user's choice.
-
-Whenever user review or manual validation leads to implementation changes, repeat all gates required by the selected workflow before returning the revised work for further validation or acceptance.
-
-Do not update a spec merely because implementation was completed. A spec should change only when expected behaviour must be clarified or changed, and only after explicit spec-change approval from the user. If user suggests something different from the spec at some point, ask them if you should change the spec to match that.
-
-Iteration-completion approval is a separate gate handled by `pmd-complete`. An iteration must not be marked `Completed`, added to the changelog, or archived without that approval.
-
-A prior Reviewer result does not replace `pmd-complete`'s fresh readiness review.
-
-An iteration must not be archived with any unchecked checkbox. A task intentionally removed from scope must be moved to a clearly labeled deferred section as a plain list item or to `docs/inbox.md`.
-
-Before making any completion changes, verify that the iteration has status `Awaiting approval`, still exists only in `docs/tasks/current/`, and has no changelog entry or archived-path reference. If any check fails, stop without changing files; never overwrite an archived iteration or duplicate its changelog entry.
-
-After approved completion changes, stage only work belonging to that iteration and create its final commit as the last repository mutation of `pmd-complete`. Do not include unrelated staged or working-tree changes. If the commit fails, report the uncommitted completion state and do not continue to another iteration.
-
-## Source-of-truth order
-
-When documents conflict, use this priority:
+Use this source priority when documents conflict:
 
 1. Explicit current user instruction
 2. PRD
 3. Spec
-4. Current iteration file
+4. Current iteration
 5. Existing implementation
 6. Inbox entry
 
-Do not silently resolve meaningful contradictions. Explain them and update the appropriate source.
+Do not silently resolve meaningful contradictions. A spec change always requires explicit user approval, even when another source suggests different behaviour.
 
-## Workflow skills
+Coordinator marks a task complete only after:
 
-Use the relevant project skill for procedural work:
+- Worker implementation and direct validation succeed
+- Reviewer returns `PASS`, including its mandatory simplification review
+- every required user-run validation passes
+- acceptance criteria and affected documentation are satisfied
+- no protected decision remains unresolved
 
-- `pmd-setup` — initialize PMD and configure its required policy, runtime, and provider files
-- `pmd-update` — update an existing PMD installation while preserving project documentation and non-PMD instructions
-- `pmd-coordinate` — the user-facing entrypoint for planning, implementation, review, completion, and subsequent iterations
-- `pmd-plan` — when delegated by Coordinator, discuss the scope, draft any needed specs, and create a coordinated execution plan
-- `pmd-worker` — implement and directly validate one Coordinator-assigned execution group without simplifying or updating PMD state
-- `pmd-review` — independently review an execution group or whole iteration, including mandatory simplification review
-- `pmd-complete` — when invoked by Coordinator, verify, request approval, update changelog, archive an iteration, and commit its completed work
+After every group is accepted, Reviewer performs a fresh whole-iteration review. Coordinator sets `Awaiting approval` only after that review passes, then invokes `pmd-complete` Stage 1 automatically.
 
-After finishing a skill, suggest the appropriate next workflow step:
+Completion has a separate approval gate. Stage 1 performs a fresh readiness review and asks explicitly whether to complete and archive the iteration. The request that started review, general consent to continue, or a prior Reviewer `PASS` is not archive approval.
 
-- setup → restart the agent or start a new session, briefly describe the app requirements in `docs/prd/`, then use `pmd-coordinate`
-- update → restart the agent or start a new session so it reloads the updated PMD skills and instructions
-- planning → return to `pmd-coordinate`
-- implementation with behaviour not covered by or inconsistent with current specs → resolve the gap before continuing by fixing the implementation, or by discussing and drafting the needed spec addition or update and obtaining explicit spec-change approval
-- Worker or Reviewer result → return to `pmd-coordinate`
-- coordinated implementation → continue `pmd-coordinate`; it automatically runs the completion readiness review, requests required archive approval, commits approved completion, and continues to the next clear iteration or planning step
-- completion → return to `pmd-coordinate`, which continues with the next clear current iteration or `pmd-plan`
+Only approved `pmd-complete` Stage 2 may update `docs/changelog.md`, set `Completed`, and move the iteration to `docs/tasks/archived/`. It must reject unchecked tasks, an existing destination, a duplicate changelog reference, or an ambiguous commit scope. Its final repository mutation is an isolated iteration commit; after that commit, control returns to Coordinator.
+
+## Skill routing
+
+- Use `pmd-setup` to initialize or finish configuring PMD.
+- Use `pmd-update` to update an existing installation without changing project documentation.
+- Use `pmd-coordinate` for all user-facing planning, implementation, review, completion, and continuation requests.
+- Coordinator delegates planning to `pmd-plan`, implementation to `pmd-worker`, independent review to `pmd-review`, and approved completion to `pmd-complete`.
+- Planner, Worker, Reviewer, and Complete return control to Coordinator; they do not choose the next lifecycle stage themselves.
+
+After setup or update, restart the agent or start a new session so it reloads the installed skills and instructions.
 
 <!-- PMD:END -->
