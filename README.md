@@ -1,75 +1,84 @@
 # Plain Markdown Development
 
-A lightweight, coordinated workflow for structuring features, planning what comes next, and developing iteratively, with Markdown and Git as durable state.
-
-Loose ideas, bugs, and questions go to `docs/inbox.md`.
+A lightweight, multi-agent workflow for planning, implementing, and reviewing software with Markdown and Git as durable project state.
 
 ## Installation
 
-Copy the complete `.agents/skills/` directory into your repository, then ask your coding agent:
+Copy the complete `.agents/skills/` directory into your repository, then send:
 
 ```text
-Use pmd-setup to install PMD in this repository.
+pmd-setup
 ```
 
 After setup, restart the agent or start a new session so it reloads the applicable instruction file.
 
-Setup summarizes the required default agent policy, asks for project-specific changes, creates `docs/agent-policy.md`, and configures a runtime. If the project uses OpenCode, setup asks whether to install the bundled reference runtime.
+Setup:
+
+- creates the PMD documentation workspace
+- installs repository instructions while preserving existing content
+- configures the agent roles and runtime
+
+OpenCode users can install the bundled reference runtime during setup.
 
 ## Quick Start
 
 Add lightweight product requirements to `docs/prd/`. They do not need to be large or complete PRDs—simple high-level notes about users, desired behaviour, and constraints are enough. You can think of them as **product briefs**.
 
-Then ask the agent to coordinate the project:
+Then send:
 
 ```text
-Use pmd-coordinate to implement the requirements.
+pmd-coordinate
 ```
 
-Coordinator is the single user-facing workflow entrypoint. It leads the user through planning, implementation, review, required approvals, completion, and subsequent iterations; the other workflow skills are invoked internally.
+Coordinator takes it from there, invoking the other workflow skills internally.
 
 ## How coordination works
 
-It separates four logical roles:
+```text
+You
+ │
+ ▼
+Coordinator
+ │
+ └─ Planner → Worker → Reviewer → Approval → Archive
+      ▲                                      │
+      └──────────── next iteration ──────────┘
+```
 
-- **Coordinator** guides the project across iterations, owns process state and routing, conducts user validation, updates task state, and invokes the next workflow stage whenever no user decision is required.
-- **Planner** owns technical planning, dependencies, execution grouping, acceptance criteria, and Worker-profile assignment.
-- **Worker** implements and directly validates an assigned execution group without changing PMD task state.
-- **Reviewer** independently checks correctness, tests, scope, maintainability, and looks for simplifications without implementing fixes by default.
+**Coordinator** is the single user-facing role. **Planner** turns selected requirements into an execution plan, **Worker** implements it, and **Reviewer** independently checks the result and looks for simplifications.
 
-Planner adds stable task IDs and an `Execution plan` to the iteration. Small PMD tasks remain independently verifiable, but one execution group—and therefore one Worker invocation—may cover one task, several related tasks, or the entire iteration. Groups may depend on other groups.
+Key properties:
 
-Every execution group names a Worker profile from runtime configuration. A profile maps a user-chosen label such as `default`, `strong`, or `frontend` to a CLI, provider, model, or native subagent. PMD does not prescribe those mappings. Planner selects the profile from expected difficulty and capability needs; Coordinator must not silently replace that choice.
-
-After a fresh whole-iteration review, Coordinator automatically starts the `pmd-complete` readiness workflow. It asks for a short explicit approval only when the iteration is ready to archive. Once approved, `pmd-complete` updates the changelog, archives the iteration, and creates its final commit. Coordinator then continues with the next clearly selected iteration or invokes `pmd-plan` for clear remaining work. When a real decision is required, it asks concisely—preferably with an available question tool—without requiring the user to know or type skill names.
-
-Core PMD requires no custom orchestration application, database, daemon, message queue, background Worker, or worktree. Runtime and provider/model choices remain configurable. See the [OpenCode v2 reference integration](integrations/opencode/README.md) for a serial setup with one OpenCode-native Worker profile, read-only Reviewer permissions, and Git checkpoint commits. Its [historical MVP dogfood report](integrations/opencode/dogfood-report.md) records an end-to-end exercise that also tested a custom external Worker profile.
-
-Every PMD project requires `docs/agent-policy.md`. During setup, PMD summarizes the bundled [default policy](.agents/skills/pmd-coordinate/references/agent-policy.md), asks which boundaries should change, and creates the project policy.
+- **Coordinator** advances automatically and pauses only for required decisions, manual validation, or explicit approval.
+- The project **agent policy** defines who may make which decisions.
+- **Markdown and Git** provide durable state without a custom orchestration service.
+- **Runtime configuration** maps each role to an agent or CLI; the **provider and model** behind it remain configurable. See the [OpenCode v2 reference integration](integrations/opencode/README.md) for a concrete setup.
 
 ## Updating
 
-For an existing installation, ask your coding agent:
+For an existing installation, send:
 
 ```text
-Use pmd-update to update PMD in this repository.
+pmd-update
 ```
 
 ## Structure
 
 ```text
 docs/
-├── agent-policy.md  # project-specific agent decision boundaries
-├── prd/             # lightweight product requirements
-├── specs/           # detailed behaviour for work being prepared
-├── tasks/
+├── agent-policy.md  # who may make which project decisions
+├── prd/             # product intent: users, problems, goals, constraints
+├── specs/           # precise expected behaviour of individual capabilities
+├── tasks/           # executable iteration plans and delivery progress
 │   ├── current/      # planned or in-progress iterations
 │   └── archived/     # approved, completed iterations
 ├── inbox.md          # loose ideas, bugs, and questions
 └── changelog.md      # delivered user-visible changes
 ```
 
-During planning, the agent usually drafts any needed specs from the product requirements, repository context, and discussion with you. You approve every spec before it is saved.
+A PRD is a lightweight product brief: it explains what should be achieved and why. A spec narrows one capability into exact expected behaviour. An iteration selects concrete work from those sources and tracks it through delivery.
+
+During planning, the agent drafts needed specs from PRDs, repository context, and discussion with you. You approve every spec before it is saved.
 
 Small bugs, maintenance work, and technical tasks can go directly into an iteration. Multiple current iterations are allowed when useful.
 
