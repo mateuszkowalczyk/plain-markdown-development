@@ -52,7 +52,7 @@ Key properties:
 - **Coordinator** advances automatically and pauses only for required decisions, manual validation, or explicit approval.
 - The project **agent policy** defines who may make which decisions.
 - **Markdown and Git** provide durable state without a custom orchestration service.
-- **Runtime configuration** maps each role to an agent or CLI; the **provider and model** behind it remain configurable. See the [OpenCode v2 reference integration](integrations/opencode/README.md) for a concrete setup.
+- **Runtime configuration** maps each role to an agent or CLI; the **provider and model** behind it remain configurable. A bundled OpenCode runtime is available during setup.
 
 ## Updating
 

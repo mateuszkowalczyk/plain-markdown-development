@@ -9,7 +9,7 @@
 
 - `.agents/skills/pmd-setup/references/agents-instructions.md` is the complete marked block installed into a consumer repository's selected `AGENTS.md` or `CLAUDE.md`. Keep both `<!-- PMD:START -->` and `<!-- PMD:END -->`; setup replaces exactly that range and preserves everything outside it.
 - Each `.agents/skills/*/SKILL.md` owns its procedure and trigger description. Keep the frontmatter `name` identical to its lowercase, hyphen-separated skill directory name.
-- `.agents/skills/pmd-setup/assets/opencode/` is the source of truth for installable OpenCode configuration. `integrations/opencode/README.md` documents those assets without duplicating them.
+- `.agents/skills/pmd-setup/assets/opencode/` is the source of truth for installable OpenCode configuration.
 - `README.md` is the user-facing installation and quick-start overview. Update it when installation steps, skill names, or the documented workflow change.
 
 ## Workflow invariants
