@@ -18,7 +18,7 @@ An `Awaiting approval` status or prior Reviewer `PASS` may indicate that impleme
 
 1. Read the selected current iteration, referenced specs, relevant PRDs, and implementation.
 2. Review every checkbox and verify that checked tasks are actually complete.
-3. Run the relevant tests, linters, type checks, builds, and other project checks.
+3. Review the recorded results of relevant tests, linters, type checks, builds, and other project checks. Re-run checks when evidence is missing, stale, failed, contradicted by the final diff, or the risk warrants independent execution; do not duplicate recent reliable checks merely to repeat the implementation workflow.
 4. Compare implemented behaviour with specs and acceptance criteria.
 5. Inspect Git state and identify the exact implementation, test, documentation, and PMD-state changes belonging to this iteration for its final commit. If unrelated staged changes or an ambiguous diff prevent an isolated completion commit, report the problem and resolve it before requesting completion approval.
 6. Do not modify a spec without explicit user approval.

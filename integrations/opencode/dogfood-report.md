@@ -2,7 +2,7 @@
 
 Date: 2026-08-29
 
-The reference integration was exercised in an isolated Git repository with OpenCode 2 beta (`opencode2 v0.0.0-beta-18684`) as Coordinator. The test iteration implemented a small standard-library Python title-to-slug API and command-line interface, then completed the normal `pmd-complete` approval, changelog, and archive workflow.
+The reference integration was exercised in an isolated Git repository with OpenCode 2 beta (`opencode2 v0.0.0-beta-18684`) as Coordinator. The test iteration implemented a small standard-library Python title-to-slug API and command-line interface, then completed the normal `pmd-complete` approval, changelog, and archive workflow. This historical exercise included a custom external Codex Worker profile that is no longer part of the bundled default runtime.
 
 ## Coverage
 

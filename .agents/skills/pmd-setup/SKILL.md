@@ -135,15 +135,13 @@ PMD configuration is complete only when both `docs/agent-policy.md` and a usable
 1. Inspect the repository for an existing `.agents/pmd-runtime.md`, `.opencode/`, or OpenCode configuration. Ask whether the user uses OpenCode when that cannot be determined reliably.
 2. When the user uses OpenCode, ask whether to install or update the bundled reference runtime:
    - briefly explain that it provides Coordinator, Planner, native Worker, and read-only Reviewer agents
-   - mention that it can optionally expose a synchronous external Codex CLI Worker profile
    - use an available question tool or ask for a short yes/no answer
 3. If the user accepts OpenCode runtime setup:
    - read every file under `assets/opencode/`
-   - ask whether to use only the native OpenCode Worker or also the external Codex CLI Worker; recommend the dual profile only when the `codex` command is available and the user wants it
    - copy the four agent templates to `.opencode/agents/`
    - copy the runtime template to `.agents/pmd-runtime.md`
-   - when native-only is selected, remove the external Worker profile and its external-CLI execution notes from the copied runtime, and remove the unused `codex exec *` permission and all external-CLI-specific prompt sentences from the copied Coordinator configuration
    - the bundled agent templates inherit the active OpenCode model; do not invent provider or model identifiers
+   - explain that additional native or external Worker profiles may be added later as project-owned runtime customization
 4. If target OpenCode agent files or `.agents/pmd-runtime.md` already exist, compare them with the proposed configuration. Preserve them when already usable. Ask before replacing or materially merging user-owned configuration, and describe exactly what would change.
 5. If the user does not use OpenCode, inspect the available native delegation or agent mechanisms and propose a minimal `.agents/pmd-runtime.md` from capabilities that are actually available. Ask the user only for missing or ambiguous semantic mappings: Planner invocation, at least one named Worker profile with capabilities and invocation, Reviewer invocation, serial execution, and diff/checkpoint isolation. Do not invent a CLI, provider, model, or fallback.
 6. If an OpenCode user declines reference runtime setup and no usable runtime already exists, ask for the missing semantic runtime mappings as for other environments. If the user cannot provide them, preserve the configured policy but report setup as incomplete and state that `.agents/pmd-runtime.md` is still required. Declining the bundled runtime does not invalidate an existing usable runtime.

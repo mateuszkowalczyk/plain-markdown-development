@@ -20,7 +20,7 @@ These setup assets are the single source of truth for the reference integration.
 
 ## Install the reference configuration
 
-The recommended path is to run `pmd-setup` and confirm that the project uses OpenCode. Setup summarizes and creates the required agent policy, asks whether to install the reference runtime, offers native-only or native-plus-Codex Worker profiles, and preserves existing configuration unless the user approves changes.
+The recommended path is to run `pmd-setup` and confirm that the project uses OpenCode. Setup summarizes and creates the required agent policy, asks whether to install the reference runtime, and preserves existing configuration unless the user approves changes.
 
 For manual installation:
 
@@ -35,7 +35,7 @@ OpenCode reads agent files directly. PMD runtime Markdown is deliberately not pa
 
 ## Runtime roles
 
-- `pmd-coordinator` is a primary agent. It guides the project across iterations, may update iteration state, invoke only the three PMD subagents, run the configured external Codex Worker, create local checkpoint commits, and transition automatically into completion and subsequent planning. Its prompt forbids technical implementation and restricts changelog/archive edits to the separately approved completion procedure.
+- `pmd-coordinator` is a primary agent. It guides the project across iterations, may update iteration state, invoke only the three PMD subagents, create local checkpoint commits, and transition automatically into completion and subsequent planning. Its prompt forbids technical implementation and restricts changelog/archive edits to the separately approved completion procedure.
 - `pmd-planner` is a subagent that may update current iteration plans. Spec edits still require explicit user approval routed through Coordinator.
 - `pmd-worker` is an OpenCode-native Worker profile. It may implement code and run direct checks but is denied edits to PMD state, requirements, specs, policy, and changelog.
 - `pmd-reviewer` is a read-only subagent. Its permissions allow repository reads, the `pmd-review` skill, and Git inspection commands while denying edits and general shell execution.
@@ -46,14 +46,7 @@ Agent permissions are defense in depth, not the workflow source of truth. The PM
 
 Planner discovers available Worker profiles by reading `.agents/pmd-runtime.md`. Each profile should describe the runtime and capabilities that matter for assignment. Planner selects a profile primarily from the execution group's expected difficulty and capability needs; Coordinator routes to exactly that profile.
 
-The example includes:
-
-- `native-default`, which invokes the OpenCode `pmd-worker` subagent
-- `external-strong`, which invokes Codex CLI synchronously with `codex exec --sandbox workspace-write -C . -`
-
-The labels are examples, not capability rankings built into PMD. Rename them and change their mappings freely. If only one profile is configured, Planner may assign it to every group. Do not silently fall back when an assigned runtime is unavailable unless the runtime file explicitly defines that fallback.
-
-For an external CLI invocation, Coordinator supplies the complete Worker assignment on standard input and waits for the process to finish. The assignment includes the iteration path, execution-group and task IDs, relevant sources, acceptance criteria, manual-validation plan, and any current review findings. The CLI must return the semantic `pmd-worker` result contract before review begins. With the bundled permissions, invoke the example as `codex exec ... - <<'EOF'` rather than `cat <<'EOF' | codex exec ... -`: keeping `codex exec` at the start lets the narrow `codex exec *` shell rule match.
+The bundled runtime includes one `native-default` profile that invokes the OpenCode `pmd-worker` subagent. Planner may assign it to every group. Projects may add other native or external profiles with their own capability and invocation mappings; Coordinator must not silently fall back when an assigned runtime is unavailable unless the runtime file explicitly defines that fallback.
 
 ## Serial checkpoint workflow
 
@@ -78,4 +71,4 @@ Make manual-validation instructions directly observable. When acceptance depends
 
 After all groups complete, Coordinator requests a whole-iteration Reviewer pass and sets `Awaiting approval` only after `PASS`. It then starts `pmd-complete` Stage 1 automatically. That handoff is not archive approval: the completion skill performs a fresh readiness review and requests concise explicit approval before using its archive/changelog permissions. Approved completion ends with an isolated iteration commit. Coordinator then continues automatically with another clearly selected planned iteration or `pmd-plan`, pausing only for a required approval, decision, priority choice, or manual-validation result.
 
-See the [MVP dogfood report](dogfood-report.md) for an end-to-end exercise of native and external Workers, replanning, review correction, manual validation, and completion.
+See the [historical MVP dogfood report](dogfood-report.md) for an end-to-end exercise of replanning, review correction, manual validation, completion, and a custom external Worker profile.

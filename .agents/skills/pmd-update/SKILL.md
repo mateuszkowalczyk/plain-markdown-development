@@ -49,8 +49,7 @@ Stop without modifying the target if source validation fails.
    - add PMD skills introduced by the source
    - replace each installed PMD skill that is present in the source as a complete directory so files removed upstream do not remain stale
    - preserve all non-PMD skill directories
-   - remove the retired `pmd-implement` skill when it is absent from the source, after applying the same uncommitted-change protection as for other managed files
-   - when any other installed `pmd-*` skill is absent from the source, report it and ask before deleting it
+   - when an installed `pmd-*` skill is absent from the source, report it and ask before deleting it
 7. In every repository-root instruction file that already contains one complete PMD block, replace exactly that marked range with the block from the source template. Do not add PMD to an instruction file that does not already contain it.
 8. Do not create, edit, move, or delete anything under `docs/`.
 9. Verify after the update that:
@@ -68,6 +67,6 @@ Stop without modifying the target if source validation fails.
 
 ## Safety
 
-An update request authorizes replacing PMD-managed files with the selected distribution and removing a known retired PMD skill such as `pmd-implement`, but not discarding detected uncommitted customizations or deleting other ambiguous PMD-prefixed skills. Ask before either protected action.
+An update request authorizes replacing PMD-managed files with the selected distribution, but not discarding detected uncommitted customizations or deleting PMD-prefixed skills absent from the source. Ask before either protected action.
 
 Stage and validate the complete replacement before applying it when possible. If an update fails partway through, restore the prior PMD-managed files when they were backed up safely; otherwise stop and report the exact partial state rather than attempting speculative repairs.
