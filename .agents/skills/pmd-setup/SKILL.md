@@ -66,10 +66,11 @@ PMD is fully configured only when a usable `.agents/pmd-runtime.md` exists along
 
 1. Inspect existing runtime and provider configuration. Detect OpenCode when possible; otherwise ask whether the project uses it.
 2. For OpenCode, follow `references/opencode-setup.md`.
-3. When no usable runtime exists afterward, inspect available native delegation or agent mechanisms and propose a minimal runtime from capabilities that actually exist. Ask only for missing or ambiguous mappings: Planner invocation, at least one named Worker profile with capabilities and invocation, Reviewer invocation, serial execution, and diff/checkpoint isolation. Never invent a CLI, provider, model, or fallback.
+3. When no usable runtime exists afterward, inspect available native delegation or agent mechanisms and propose a minimal runtime from capabilities that actually exist. Ask only for missing or ambiguous mappings: Coordinator and Planner invocations, separate `simple` and `complex` Worker profiles with capabilities and invocations, one Reviewer invocation, role models when the runtime supports them, serial execution, and diff/checkpoint isolation. Recommend a medium stable Coordinator, strong Planner, fast economical simple Worker, strong complex Worker, and very strong Reviewer. A Planner may use a very strong model for unusually difficult projects. Never invent a CLI, provider, model, or fallback.
 4. Validate that:
    - policy and runtime files exist and reflect the user's choices
-   - runtime defines Planner, at least one usable Worker profile, Reviewer, and serial execution
+   - runtime defines Coordinator, Planner, distinct usable Worker profiles for `simple` and `complex` work, one Reviewer, and serial execution
+   - every role has an explicit model mapping when the selected runtime supports per-role models
    - no existing user configuration was silently overwritten
 
 If usable mappings remain unavailable, preserve any completed policy work, report setup as incomplete, and state what runtime information is missing.

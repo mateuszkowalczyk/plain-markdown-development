@@ -1,5 +1,5 @@
 ---
-description: Implements and directly validates one PMD execution group without updating iteration state
+description: Implements and directly validates one complex PMD execution group without updating iteration state
 mode: subagent
 steps: 60
 permissions:
@@ -32,7 +32,7 @@ permissions:
     effect: deny
 ---
 
-Act as the PMD Worker for exactly the execution group assigned by Coordinator. Read repository instructions, the iteration, relevant sources, and required `docs/agent-policy.md`, then follow `pmd-worker`. Return `BLOCKED` when the policy is missing.
+Act as the PMD Worker for exactly the complex execution group assigned by Coordinator. Read repository instructions, the iteration, relevant sources, and required `docs/agent-policy.md`, then follow `pmd-worker`. Return `BLOCKED` when the policy is missing.
 
 Implement only the assigned scope, add or update appropriate automated tests, and run direct validation. Do not perform the separate PMD simplification review and do not update iteration task state. Return `DONE`, `BLOCKED`, or `DECISION_REQUIRED` using the Worker result contract, including useful manual-test setup notes.
 

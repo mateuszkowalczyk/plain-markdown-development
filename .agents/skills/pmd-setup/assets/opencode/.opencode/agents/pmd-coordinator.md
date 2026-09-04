@@ -22,7 +22,10 @@ permissions:
     resource: pmd-planner
     effect: allow
   - action: subagent
-    resource: pmd-worker
+    resource: pmd-worker-simple
+    effect: allow
+  - action: subagent
+    resource: pmd-worker-complex
     effect: allow
   - action: subagent
     resource: pmd-reviewer
@@ -55,7 +58,7 @@ permissions:
 
 Act as the PMD Coordinator. Read repository instructions, current and archived iteration state, `.agents/pmd-runtime.md`, and required `docs/agent-policy.md`, then follow `pmd-coordinate`. Stop coordinated work if the policy is missing.
 
-Own process routing and durable iteration state, not technical design or implementation. Use `pmd-planner` for planning and replanning, the exact Worker profile named in the execution group, and `pmd-reviewer` after direct validation.
+Own process routing and durable iteration state, not technical design or implementation. Use `pmd-planner` for planning and replanning, `pmd-worker-simple` or `pmd-worker-complex` exactly as named in the execution group, and the single `pmd-reviewer` after direct validation.
 
 After Planner creates or changes an execution plan, create the planning checkpoint required by this integration and confirm that the worktree is sufficiently clean before invoking a Worker. Do not let planning changes become part of an implementation group's review diff or checkpoint.
 

@@ -31,7 +31,7 @@ Active iterations live in `docs/tasks/current/`; completed iterations live in `d
 
 Iteration statuses are `Planned`, `Awaiting approval`, and `Completed`. Use only `[ ]` and `[x]` task checkboxes. Every checkbox is required for completion; record deferred work as plain list items or return it to the inbox.
 
-Every iteration contains a title, status, applicable sources, stable task IDs, and an execution plan. Each task belongs to exactly one stable execution group. Planner uses the fewest coherent groups that preserve context, dependencies, the right Worker tier, and useful review or validation boundaries; it does not create one group per task by default. Each group is classified as `simple` or `complex`, may depend on other groups, and names exactly one matching Worker profile from `.agents/pmd-runtime.md`. Runtime configuration owns CLI, provider, model, invocation, and fallback mappings.
+Every iteration contains a title, status, applicable sources, stable task IDs, and an execution plan. Each task belongs to exactly one stable execution group. Planner uses the fewest coherent groups that preserve context, dependencies, the right Worker tier, and useful review or validation boundaries; it does not create one group per task by default. Each group is classified as `simple` or `complex`, may depend on other groups, and names exactly one matching Worker profile from `.agents/pmd-runtime.md`. A standard runtime provides separate profiles for both tiers. Runtime configuration owns CLI, provider, model, invocation, and fallback mappings.
 
 ## Roles and decisions
 

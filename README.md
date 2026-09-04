@@ -16,9 +16,9 @@ Setup:
 
 - creates the PMD documentation workspace
 - installs repository instructions while preserving existing content
-- configures the agent roles and runtime
+- configures the agent roles, runtime, and role-specific models
 
-OpenCode users can install the bundled reference runtime during setup.
+OpenCode users can install the bundled reference runtime during setup. It separates fast, economical work from complex work and guides the user through selecting models for four strength tiers before confirming the role mapping.
 
 ## Quick Start
 
@@ -40,9 +40,9 @@ You
  ▼
 Coordinator
  │
- └─ Planner → Worker → Reviewer → Approval → Archive
-      ▲                                      │
-      └──────────── next iteration ──────────┘
+ └─ Planner → Worker (simple / complex) → Reviewer → Approval → Archive
+      ▲                                                         │
+      └────────────────── next iteration ────────────────────────┘
 ```
 
 **Coordinator** is the single user-facing role. **Planner** turns selected requirements into an execution plan, **Worker** implements it, and **Reviewer** independently checks the result and looks for simplifications.
@@ -52,7 +52,7 @@ Key properties:
 - **Coordinator** advances automatically and pauses only for required decisions, manual validation, or explicit approval.
 - The project **agent policy** defines who may make which decisions.
 - **Markdown and Git** provide durable state without a custom orchestration service.
-- **Runtime configuration** maps each role to an agent or CLI; the **provider and model** behind it remain configurable. A bundled OpenCode runtime is available during setup.
+- **Runtime configuration** maps each role to an agent or CLI; the **provider and model** behind it remain configurable. The bundled OpenCode runtime uses a fast Worker for simple groups, a stronger Worker for complex groups, and one Reviewer.
 
 ## Updating
 

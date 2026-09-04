@@ -1,6 +1,11 @@
 # PMD Runtime
 
-This file is read semantically by Coordinator. It is not an OpenCode configuration file and requires no custom parser.
+This file is read semantically by Coordinator. It is not an OpenCode configuration file and requires no custom parser. Exact provider/model mappings live in each referenced OpenCode agent's `model` frontmatter field.
+
+## Coordinator
+
+Type: OpenCode primary agent
+Agent: pmd-coordinator
 
 ## Planner
 
@@ -9,12 +14,19 @@ Agent: pmd-planner
 
 ## Worker profiles
 
-### native-default
+### simple
 
 Type: OpenCode subagent
-Agent: pmd-worker
-Difficulty: simple, complex
-Capabilities: General implementation and direct validation in the current repository.
+Agent: pmd-worker-simple
+Difficulty: simple
+Capabilities: Localized, well-understood, low-risk implementation and direct validation.
+
+### complex
+
+Type: OpenCode subagent
+Agent: pmd-worker-complex
+Difficulty: complex
+Capabilities: Cross-cutting, uncertain, high-risk, domain-heavy, or algorithmically demanding implementation and direct validation.
 
 ## Reviewer
 

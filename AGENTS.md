@@ -23,6 +23,7 @@
 
 - PMD has one coordinated workflow with four logical roles: Coordinator owns the ongoing project workflow and process state across iterations, Planner owns technical planning, Worker implements an assigned execution group, and Reviewer independently reviews it.
 - Every PMD project must have `docs/agent-policy.md` and usable runtime configuration. Setup creates the policy from the bundled default after summarizing the decision boundaries and asking the user for changes, then configures the runtime.
+- Setup configures separate `simple` and `complex` Worker profiles. When the runtime supports per-role models, setup proposes cost-aware model strengths for Coordinator, Planner, both Workers, and the single Reviewer, then records the user's exact choices without inventing identifiers.
 - CLI, provider, model, and Worker-profile mappings belong to runtime configuration. Core PMD must not prescribe a concrete runtime or silently substitute one configured profile for another. Planner classifies each execution group as `simple` or `complex` and assigns a profile configured for that tier.
 - Planner uses the fewest coherent execution groups that preserve context, dependencies, Worker difficulty, and useful review or manual-validation boundaries; task granularity must not dictate agent-invocation granularity.
 - Workers perform implementation and direct validation but never update iteration checkboxes or status. Coordinator updates task state only after implementation, review, and any required manual validation succeed.
