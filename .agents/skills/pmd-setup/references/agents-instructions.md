@@ -31,14 +31,14 @@ Active iterations live in `docs/tasks/current/`; completed iterations live in `d
 
 Iteration statuses are `Planned`, `Awaiting approval`, and `Completed`. Use only `[ ]` and `[x]` task checkboxes. Every checkbox is required for completion; record deferred work as plain list items or return it to the inbox.
 
-Every iteration contains a title, status, applicable sources, stable task IDs, and an execution plan. Each task belongs to exactly one stable execution group. A group may contain one or more tasks, depend on other groups, and names exactly one Worker profile from `.agents/pmd-runtime.md`. Runtime configuration owns CLI, provider, model, invocation, and fallback mappings.
+Every iteration contains a title, status, applicable sources, stable task IDs, and an execution plan. Each task belongs to exactly one stable execution group. Planner uses the fewest coherent groups that preserve context, dependencies, the right Worker tier, and useful review or validation boundaries; it does not create one group per task by default. Each group is classified as `simple` or `complex`, may depend on other groups, and names exactly one matching Worker profile from `.agents/pmd-runtime.md`. Runtime configuration owns CLI, provider, model, invocation, and fallback mappings.
 
 ## Roles and decisions
 
 - **Coordinator** owns lifecycle routing, user interaction, manual validation, task state, completion handoffs, and continuation across iterations. It does not design or implement the technical solution.
-- **Planner** owns technical planning, task decomposition, execution groups, dependencies, acceptance criteria, manual-validation design, and Worker-profile assignment. It never implements code.
+- **Planner** owns technical planning, task decomposition, minimal coherent execution groups, dependencies, difficulty classification, acceptance criteria, manual-validation design, Worker-profile assignment, and the whole-iteration review decision. It never implements code.
 - **Worker** implements and directly validates only its assigned execution group. It never updates PMD task state or performs the separate PMD simplification review.
-- **Reviewer** independently reviews correctness, validation, scope, maintainability, and simplification. It reports findings and does not implement fixes by default.
+- **Reviewer** independently reviews correctness, validation, scope, maintainability, and simplification. It weighs each finding's material benefit against implementation and revalidation cost, omits non-actionable nits, and does not implement fixes by default.
 
 Every PMD project requires `docs/agent-policy.md`. It assigns project-specific decisions to the user, Planner, or Worker. Worker and Reviewer return blockers and protected decisions to Coordinator; only Coordinator normally interacts with the user.
 
@@ -65,7 +65,7 @@ Coordinator marks a task complete only after:
 - acceptance criteria and affected documentation are satisfied
 - no protected decision remains unresolved
 
-After every group is accepted, Reviewer performs a fresh whole-iteration review. Coordinator sets `Awaiting approval` only after that review passes, then invokes `pmd-complete` Stage 1 automatically.
+Every execution group receives an independent review. With one group, that review covers the whole implementation. With multiple groups, an additional whole-iteration review is required only for material dependencies, shared behaviour, cross-group integration, high risk, or another whole-system concern identified by Planner or Coordinator. Coordinator sets `Awaiting approval` after all required reviews pass, then invokes `pmd-complete` Stage 1 automatically.
 
 Completion has a separate approval gate. Stage 1 performs a fresh readiness review and asks explicitly whether to complete and archive the iteration. The request that started review, general consent to continue, or a prior Reviewer `PASS` is not archive approval.
 

@@ -31,13 +31,15 @@ Evaluate every applicable dimension:
 
 The simplification review is mandatory on every pass. State explicitly when no meaningful simplification is available rather than omitting the dimension.
 
+Keep findings proportional. For every proposed change, weigh its concrete benefit against implementation, validation, and re-review cost. Require changes only when they materially improve correctness, scope compliance, risk, maintainability, or simplicity. Do not report subjective style preferences, marginal alternatives, speculative problems without a plausible failure path, or unrelated cleanup as findings. Omit non-actionable nits entirely.
+
 ## Outcome rules
 
 Return exactly one outcome:
 
 - `PASS` — implementation is correct, in scope, adequately validated, has no unresolved simplification issue, and is ready for planned manual validation when required.
-- `CHANGES_REQUIRED` — Worker can resolve the findings without changing approved behaviour, expanding scope, or making a protected decision.
-- `DECISION_REQUIRED` — resolution requires replanning, a product/specification decision, or another decision protected by PMD rules or `docs/agent-policy.md`.
+- `CHANGES_REQUIRED` — Worker can resolve one or more material findings without changing approved behaviour, expanding scope, or making a protected decision.
+- `DECISION_REQUIRED` — a material issue requires replanning, a product/specification decision, or another decision protected by PMD rules or `docs/agent-policy.md`.
 
 For `CHANGES_REQUIRED`, provide concrete, prioritized, actionable findings and return them through Coordinator for another Worker pass. Review the resulting complete diff again; do not assume that a narrow correction introduced no regressions.
 

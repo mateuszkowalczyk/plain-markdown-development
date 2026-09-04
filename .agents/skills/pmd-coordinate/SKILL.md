@@ -22,10 +22,10 @@ Core PMD defines role contracts and durable Markdown state, not a particular CLI
 
 1. Inspect `docs/tasks/current/` and `docs/tasks/archived/`, then identify the current iteration the user selected or the next actionable planned iteration. When multiple candidates exist and the choice is not already clear, ask the user which one to continue. When no actionable current iteration exists but the next scope is clear, use the cross-iteration procedure below to invoke `pmd-plan` instead of inventing work.
 2. Read all referenced specs, relevant PRDs, repository instructions, and other sources needed to route the work.
-3. Read `.agents/pmd-runtime.md` or the runtime configuration explicitly selected by the user. It must define a Planner, one or more Worker profiles, and a Reviewer.
+3. Read `.agents/pmd-runtime.md` or the runtime configuration explicitly selected by the user. It must define a Planner, one Reviewer, and a suitable Worker profile for every difficulty tier used by the plan.
 4. Require and read `docs/agent-policy.md`. If it is missing, stop coordinated work and use `pmd-setup` to complete PMD configuration; do not continue with implicit decision boundaries.
 5. Check for unrelated uncommitted changes or another condition that makes an execution group's implementation diff ambiguous. Apply any isolation or checkpoint requirement documented by the selected runtime integration; if reliable review is not possible, stop and report the problem.
-6. Validate the execution plan using the readiness test in `pmd-plan`.
+6. Validate the execution plan using the readiness test in `pmd-plan`, including difficulty-to-profile assignments, minimal coherent grouping, and the whole-iteration review decision.
 
 If runtime configuration is missing or a configured role/profile cannot be invoked, report the exact problem. Do not silently substitute a different Worker profile, CLI, provider, or model unless the runtime configuration explicitly declares that fallback.
 
@@ -99,13 +99,14 @@ Apply the selected runtime integration's accepted-group checkpoint procedure whe
 
 After every execution group is complete:
 
-1. Invoke Reviewer for a fresh whole-iteration review of all implementation, tests, task state, specs, and acceptance criteria.
-2. Route `CHANGES_REQUIRED` through the appropriate Worker group and repeat its direct validation, group review, and any affected manual validation before requesting another whole-iteration review.
-3. Route `DECISION_REQUIRED` to Planner or the user, then repeat every invalidated gate after resolution.
-4. Only after whole-iteration `PASS`, confirm that every checkbox is checked and set status to `Awaiting approval`.
-5. Present the implementation summary and immediately follow `pmd-complete` Stage 1 to perform its independent readiness review. This procedural handoff does not require user approval.
+1. Determine whether an additional whole-iteration review is required. Reuse the group-level `PASS` when one execution group covered the whole implementation. With multiple groups, invoke Reviewer on the whole iteration only when the plan requires it or when implementation evidence reveals material dependencies, shared behaviour, cross-group integration, high risk, or changes made after an earlier group review.
+2. When an additional review is not required, rely on the fresh `PASS` for every accepted group; do not repeat review solely because the iteration contains multiple groups.
+3. When an additional review is required, review all implementation, tests, task state, specs, and acceptance criteria. Route `CHANGES_REQUIRED` through the appropriate Worker group and repeat its direct validation, group review, and any affected manual validation before requesting another whole-iteration review.
+4. Route `DECISION_REQUIRED` to Planner or the user, then repeat every invalidated gate after resolution.
+5. After all required review gates pass, confirm that every checkbox is checked and set status to `Awaiting approval`.
+6. Present the implementation summary and immediately follow `pmd-complete` Stage 1 to perform its independent readiness review. This procedural handoff does not require user approval.
 
-The final Reviewer result and the automatic handoff to `pmd-complete` are not archive approval. Stage 1 must present its fresh readiness report and ask the user concisely whether to complete and archive the iteration. Coordinator must not update `docs/changelog.md`, mark the iteration `Completed`, or move it to `docs/tasks/archived/` while acting under `pmd-coordinate`; those actions are allowed only while explicitly following the approved Stage 2 of `pmd-complete`.
+The final required Reviewer result and the automatic handoff to `pmd-complete` are not archive approval. Stage 1 must present its fresh readiness report and ask the user concisely whether to complete and archive the iteration. Coordinator must not update `docs/changelog.md`, mark the iteration `Completed`, or move it to `docs/tasks/archived/` while acting under `pmd-coordinate`; those actions are allowed only while explicitly following the approved Stage 2 of `pmd-complete`.
 
 ## Continue across iterations
 
