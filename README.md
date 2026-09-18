@@ -1,6 +1,6 @@
 # Plain Markdown Development
 
-A lightweight, multi-agent workflow for planning, implementing, and reviewing software with Markdown and Git as durable project state.
+A lightweight, multi-agent workflow that balances human control over product decisions with agent autonomy in planning, implementation, and review. Markdown documents decisions and tracks project state.
 
 ## Installation
 
@@ -41,7 +41,7 @@ You
 Coordinator
  │
  └─ Planner → Worker (simple / complex) → Reviewer → Approval → Archive
-      ▲                                                         │
+      ▲                                                          │
       └────────────────── next iteration ────────────────────────┘
 ```
 
@@ -80,6 +80,5 @@ A PRD is a lightweight product brief: it explains what should be achieved and wh
 
 During planning, the agent drafts needed specs from PRDs, repository context, and discussion with you. You approve every spec before it is saved.
 
-Small bugs, maintenance work, and technical tasks can go directly into an iteration. Multiple current iterations are allowed when useful.
+Small bugs, maintenance work, and technical tasks can go directly into an iteration without dedicated PRDs.
 
-Every iteration checkbox is required for completion. If a task is no longer needed, move it to a clearly labeled deferred section as a plain list item or return it to `docs/inbox.md`.
