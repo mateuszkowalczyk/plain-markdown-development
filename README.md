@@ -18,7 +18,7 @@ Setup:
 - installs repository instructions while preserving existing content
 - configures the agent roles, runtime, and role-specific models
 
-OpenCode users can install the bundled reference runtime during setup. It separates fast, economical work from complex work and guides the user through selecting models for four strength tiers before confirming the role mapping.
+OpenCode users can install the bundled reference runtime during setup. It separates fast, economical work from complex work, guides the user through selecting models for four strength tiers before confirming the role mapping, and configures `pmd-coordinator` as the project's default agent.
 
 ## Quick Start
 
@@ -81,4 +81,3 @@ A PRD is a lightweight product brief: it explains what should be achieved and wh
 During planning, the agent drafts needed specs from PRDs, repository context, and discussion with you. You approve every spec before it is saved.
 
 Small bugs, maintenance work, and technical tasks can go directly into an iteration without dedicated PRDs.
-
