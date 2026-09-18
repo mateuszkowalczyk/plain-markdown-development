@@ -31,6 +31,19 @@ If runtime configuration is missing or a configured role/profile cannot be invok
 
 If the execution plan is missing, invalid, or based on an incorrect technical premise, invoke Planner to create or revise it. Coordinator may identify process defects but must not replace Planner by independently redesigning the technical solution.
 
+## Delegated agent failures
+
+If Planner, Worker, Reviewer, or another delegated agent terminates with an operational error instead of a valid role result, pause the coordinated workflow and preserve its current state. Do not treat the invocation as success, advance a gate, update task state, or infer a role decision from a partial response.
+
+Inform the user promptly with the affected role, the reported error, and whether it appears retryable. Handle retries according to the cause:
+
+- Retry the same configured role or profile after transient server unavailability, network errors, timeouts, or rate limits whose retry window can be honored. Keep the assignment and relevant context unchanged, and inform the user when recurring failures cause another retry.
+- For a usage limit or quota that includes a reset time, report that time and retry only after the limit may have reset. If waiting cannot be performed in the current session, ask the user to resume after the stated time.
+- Do not repeatedly retry authentication, configuration, permission, hard-quota, invalid-model, or other errors that require intervention. Explain the required action and ask the user how to proceed.
+- Never switch agents, profiles, providers, or models unless the runtime declares that fallback or the user explicitly approves the change.
+
+Continue retrying only while the failure remains plausibly transient. If substantially the same error recurs without a useful recovery signal, stop retrying and consult the user rather than looping indefinitely. After a successful retry, resume from the interrupted role invocation and repeat every gate that depended on it.
+
 ## Select the next execution group
 
 An execution group is complete when all of its task checkboxes are checked. A group is ready when:
