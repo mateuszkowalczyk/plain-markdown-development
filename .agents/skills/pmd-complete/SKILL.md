@@ -1,79 +1,52 @@
 ---
 name: pmd-complete
-description: Verify that a current iteration is ready to finish, request explicit user approval, and after approval update the changelog, archive the iteration, and commit its completed work. Use only when PMD Coordinator invokes the completion workflow after implementation review.
+description: Check a reviewed PMD task's readiness, request explicit approval, and only after approval update the changelog, archive the task, and create its final commit. Use only when Coordinator invokes completion after review and any manual validation.
 ---
 
-# Complete an iteration
+# Complete one PMD task
 
 Completion is a two-stage workflow:
 
-1. verify and request approval
+1. integrity and readiness check followed by an approval request
 2. archive and commit only after explicit user approval
 
-Every completion attempt starts with Stage 1. Never treat the request that starts the completion review, even if it asks to approve or archive, as approval to archive. Approval is fresh only when the user gives it after the latest readiness report.
+Every completion attempt starts with Stage 1. A request to review, finish, continue, or invoke this skill is not approval for Stage 2.
 
-An `Awaiting approval` status or prior Reviewer `PASS` may indicate that implementation gates succeeded, but never replaces the fresh Stage 1 readiness review or the explicit approval required for Stage 2. Do not load runtime configuration or resume orchestration while completing an iteration.
+## Stage 1: check readiness and request approval
 
-## Stage 1: verify and request approval
+1. Read the current task, its sources, `docs/agent-policy.md`, relevant repository instructions, the latest Reviewer result, manual-validation evidence, and repository state.
+2. Confirm that the task uses the required schema, exists at `docs/tasks/current/task-NNN-short-name.md`, and has Status `Awaiting approval`.
+3. Confirm that Plan and Validation contain substantive current evidence, Review records a `PASS` for the complete implementation diff, every required manual-validation scenario passed, and no protected decision remains unresolved.
+4. Confirm from the recorded review baseline and repository state that the task path and title; Builder tier; Sources; Depends on; Outcome; Acceptance; Plan; Validation; and the complete reviewed implementation, test, and behaviour-documentation diff all remain unchanged since `PASS`. Only Coordinator updates to Review, Manual validation, and Status that record completed gates are exempt; any other post-review change makes the review stale.
+5. Inspect the prospective task commit scope and confirm it is isolated from unrelated changes. Confirm that the archived destination does not exist and that `docs/changelog.md` has no entry or archived-path reference for this task.
+6. Do not repeat the independent correctness, maintainability, or simplification review. If the existing review is missing, stale, or ambiguous, return to Coordinator for a fresh `pmd-review` pass.
+7. Present a concise readiness report covering outcome, validation, review, manual validation, changelog summary, archive path, and commit scope.
+8. Ask explicitly whether to complete and archive this task now. Use a question tool when available, otherwise ask a concise yes/no question.
 
-1. Read the selected current iteration, referenced specs, relevant PRDs, and implementation.
-2. Review every checkbox and verify that checked tasks are actually complete.
-3. Review the recorded results of relevant tests, linters, type checks, builds, and other project checks. Re-run checks when evidence is missing, stale, failed, contradicted by the final diff, or the risk warrants independent execution; do not duplicate recent reliable checks merely to repeat the implementation workflow.
-4. Compare implemented behaviour with specs and acceptance criteria.
-5. Inspect Git state and identify the exact implementation, test, documentation, and PMD-state changes belonging to this iteration for its final commit. If unrelated staged changes or an ambiguous diff prevent an isolated completion commit, report the problem and resolve it before requesting completion approval.
-6. Do not modify a spec without explicit user approval.
-7. When a spec appears outdated:
-   - explain the mismatch
-   - discuss the correct behaviour with the user when needed
-   - draft the exact update from that discussion and repository context
-   - ask for approval before editing it
-8. Resolve unfinished work:
-   - treat every checkbox as required and leave unfinished tasks unchecked, or
-   - move a task that is no longer needed to a clearly labeled deferred section as a plain list item or to `docs/inbox.md`
-9. Add concise completion notes only when useful.
-10. If any checkbox remains unchecked, report that the iteration is not ready.
-11. If ready, set status to `Awaiting approval`.
-12. Present a completion summary and ask concisely whether the user approves completing and archiving the iteration. Use an available question tool when practical; otherwise request a short yes/no answer. Do not require the user to invoke or name `pmd-complete`.
-
-Do not update the changelog or move the file during Stage 1.
+Do not update the changelog, task status, archive path, staging area, or commit during Stage 1.
 
 ## Stage 2: archive after explicit approval
 
-Proceed only when the user explicitly approves completing or archiving this iteration after the latest readiness report.
+Proceed only after explicit approval given in response to the latest readiness report.
 
-1. Re-read the iteration and confirm it is ready.
-2. Confirm there are no unchecked checkboxes.
-3. Before changing any file, confirm all of the following:
-   - the iteration still exists in `docs/tasks/current/`
-   - its status is `Awaiting approval`
-   - the destination does not already exist in `docs/tasks/archived/`
-   - `docs/changelog.md` has no entry or archived-path reference for this iteration
-   - the iteration-related commit scope identified in Stage 1 is still reliable and will not include unrelated staged changes
-4. If any preflight check fails, stop without making changes and report the conflicting state. Never overwrite an archived file or duplicate a changelog entry.
-5. Add one user-visible entry to `docs/changelog.md`.
-6. Reference the archived iteration path:
-
-   `docs/tasks/archived/iteration-NNN-short-name.md`
-
-7. Set the iteration status to `Completed`.
-8. Move the file from `docs/tasks/current/` to `docs/tasks/archived/` without renaming it.
-9. Stage exactly the implementation, tests, documentation, changelog, and iteration move belonging to the completed iteration. Inspect the staged diff and exclude unrelated work.
-10. Create a final commit with a concise project-appropriate message such as `Complete iteration NNN short name`. The commit is the last repository-changing action in the completion workflow.
-11. If staging or committing fails, stop and report the exact uncommitted completion state. Do not continue to another iteration until the completion commit succeeds.
-12. Report the archived path, changelog update, and commit.
-13. Return control to Coordinator so it can continue with the next clear current iteration or invoke `pmd-plan`.
+1. Re-read the task and repository state. Repeat the Stage 1 integrity checks that could have changed, without repeating implementation review.
+2. Stop without mutation if the task is no longer `Awaiting approval`, review evidence is stale, manual validation is incomplete, the archived destination exists, the changelog already references the task, or commit scope is ambiguous.
+3. Add one user-visible entry to `docs/changelog.md` using the format below.
+4. Set Status to `Completed`.
+5. Move the file to `docs/tasks/archived/task-NNN-short-name.md` without renaming it.
+6. Stage exactly the implementation, tests, documentation, changelog, and task move belonging to this task. Inspect the staged diff and exclude unrelated work.
+7. Create the final commit with a concise message such as `Complete task NNN short name`. This commit is the last repository mutation in the completion workflow.
+8. If staging or committing fails, stop and report the exact uncommitted state. Do not continue to another task until the final commit succeeds.
+9. Report the archived path, changelog update, and commit, then return control to Coordinator.
 
 ## Changelog format
 
 ```markdown
-## YYYY-MM-DD — Iteration NNN
+## YYYY-MM-DD — Task NNN
 
-Iteration: `docs/tasks/archived/iteration-NNN-short-name.md`
+Task: `docs/tasks/archived/task-NNN-short-name.md`
 
-- <User-visible completed outcome>
-- <User-visible completed outcome>
+- <user-visible completed outcome>
 ```
 
-The changelog records outcomes, not individual engineering steps. Do not include speculative, deferred, or unfinished work.
-
-The completion commit may include implementation changes that were not checkpointed earlier, but it must contain only work belonging to the approved iteration. Never include unrelated staged or working-tree changes merely to make the tree clean.
+The changelog records outcomes, not engineering steps. Do not include speculative, deferred, or unfinished work. Never include unrelated staged or working-tree changes merely to make the tree clean.

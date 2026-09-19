@@ -1,11 +1,11 @@
 # PMD Agent Policy
 
-This policy defines project-specific decision boundaries for PMD's coordinated workflow. Every PMD project requires it. Adapt the rules to the repository; PMD's mandatory spec-change and iteration-completion approvals still apply and cannot be removed by this policy.
+This policy defines project-specific decision boundaries for PMD's coordinated workflow. Every PMD project requires it. Adapt the rules to the repository; PMD's mandatory spec-change and task-completion approvals cannot be removed.
 
 ## Require user decision
 
 - Change intended product behaviour.
-- Expand or remove iteration scope.
+- Materially expand or remove task scope after work begins.
 - Choose a meaningful architecture tradeoff with lasting maintenance consequences.
 - Change public API compatibility.
 - Change a persistent data model or migration strategy.
@@ -13,19 +13,20 @@ This policy defines project-specific decision boundaries for PMD's coordinated w
 - Perform a destructive or difficult-to-reverse operation.
 - Introduce a paid external service or a new material operating cost.
 
-## Planner may decide
+## Coordinator may decide
 
-- Implementation architecture within approved behaviour and scope.
+- Create and prioritize a task from clear user requests and approved sources.
+- Define task outcome, acceptance, sources, and dependencies without changing intended behaviour.
+- Size a task for one Builder context and select its `simple` or `complex` tier.
+- Split work into independently deliverable tasks when approved scope and behaviour remain unchanged.
+- Route review findings and plan user-run manual validation.
+
+## Builder may decide
+
+- Technical implementation architecture within approved behaviour and task scope.
 - Module boundaries and internal abstractions.
-- Task decomposition and execution grouping.
-- Execution-group dependencies and Worker-profile assignment.
-- Automated test strategy and planned manual validation.
+- Local implementation details and names.
+- Straightforward refactors required by the task.
+- Automated test strategy, exact test cases, and direct-validation procedure.
 
-## Worker may decide
-
-- Local implementation details inside the assigned execution group.
-- Names of internal functions, types, and variables.
-- Straightforward refactors required by the assigned implementation.
-- Exact test cases needed to verify already-approved behaviour.
-
-Worker and Reviewer return any unclear or protected decision to Coordinator. Coordinator routes it to Planner or the user according to this policy and PMD's mandatory approval rules.
+Builder and Reviewer return unclear or protected decisions to Coordinator. Only Coordinator normally interacts with the user.

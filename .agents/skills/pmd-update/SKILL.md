@@ -1,26 +1,22 @@
 ---
 name: pmd-update
-description: Update an existing Plain Markdown Development installation to the latest or a user-selected distribution version while preserving project documentation and non-PMD instructions. Use when the user asks to update, upgrade, or synchronize PMD. Does not initialize a new installation; use pmd-setup instead.
+description: Update an existing Plain Markdown Development installation to the latest or a user-selected distribution version while preserving project documentation, non-PMD instructions, and detected runtime customizations. Use pmd-setup for a new installation.
 ---
 
 # Update PMD
 
-Synchronize an existing PMD installation with a trusted PMD source without changing the consumer repository's product documentation.
+Synchronize an existing installation with a trusted PMD source without changing consumer product documentation.
 
 ## Managed scope
 
-PMD update may change only:
+The core update may change only:
 
 - PMD-owned directories matching `.agents/skills/pmd-*`
-- complete PMD instruction blocks between `<!-- PMD:START -->` and `<!-- PMD:END -->` in repository-root `AGENTS.md` and `CLAUDE.md`
+- complete PMD instruction blocks between `<!-- PMD:START -->` and `<!-- PMD:END -->` in root `AGENTS.md` and `CLAUDE.md`
 
-Preserve:
+Preserve all content outside the markers, everything under `docs/`, non-PMD skills, and the existing choice of instruction files.
 
-- all content outside the PMD markers
-- `docs/` and all other project files
-- skills not owned by PMD
-- the existing choice of which instruction files contain PMD
-- user-owned runtime configuration such as `.agents/pmd-runtime.md`
+`.agents/pmd-runtime.md`, `.opencode/agents/`, and OpenCode configuration are project runtime configuration, not automatically replaced by the core update. Synchronize them with bundled OpenCode assets only through the explicitly accepted runtime step below.
 
 ## Update source
 
@@ -28,45 +24,49 @@ Use a source directory or version supplied by the user. Otherwise obtain the cur
 
 `https://github.com/mateuszkowalczyk/plain-markdown-development`
 
-Fetch remote content into a temporary location before changing the target repository. When the source is a Git checkout, record its commit. Never execute scripts from an unverified update source.
+Fetch remote content into a temporary location and record a source commit when available. Never execute scripts from an unverified source.
 
-The source must contain:
+Before changing the target, require:
 
-- `.agents/skills/pmd-setup/references/agents-instructions.md` with exactly one complete PMD marker block
-- valid `.agents/skills/pmd-*/SKILL.md` files whose frontmatter names match their directory names
-- the core `pmd-setup`, `pmd-update`, `pmd-plan`, `pmd-worker`, `pmd-review`, `pmd-coordinate`, and `pmd-complete` skills
+- exactly one complete marker block in `.agents/skills/pmd-setup/references/agents-instructions.md`
+- valid `.agents/skills/pmd-*/SKILL.md` files whose frontmatter names match their directories
+- core skills `pmd-setup`, `pmd-update`, `pmd-builder`, `pmd-review`, `pmd-coordinate`, and `pmd-complete`
+- no source `pmd-plan` or `pmd-worker` directory
 
-Stop without modifying the target if source validation fails.
+Stop without modification if validation fails.
 
 ## Procedure
 
-1. Inspect `.agents/skills/`, repository-root `AGENTS.md`, and repository-root `CLAUDE.md` to confirm PMD is already installed. If neither a PMD skill nor a complete PMD instruction block exists, stop and recommend `pmd-setup`.
-2. Resolve and validate the update source as described above.
-3. Inspect the target for incomplete PMD markers, duplicate PMD blocks, and uncommitted changes that overlap PMD-managed files.
-4. If either instruction file contains a single unmatched marker or duplicate PMD blocks, stop before changing any file and ask the user how to resolve it.
-5. If PMD-managed files have uncommitted local changes that the update would overwrite, show the affected files and ask for confirmation before continuing. When version control cannot distinguish local customizations from version differences, explain that limitation and ask before overwriting divergent PMD-managed files. Do not treat ordinary committed differences from the new distribution as local modifications.
-6. Compare the source and installed PMD skill directories, then:
-   - add PMD skills introduced by the source
-   - replace each installed PMD skill that is present in the source as a complete directory so files removed upstream do not remain stale
-   - preserve all non-PMD skill directories
-   - when an installed `pmd-*` skill is absent from the source, report it and ask before deleting it
-7. In every repository-root instruction file that already contains one complete PMD block, replace exactly that marked range with the block from the source template. Do not add PMD to an instruction file that does not already contain it.
-8. Do not create, edit, move, or delete anything under `docs/`.
-9. Verify after the update that:
-   - every source PMD skill directory matches the installed copy
-   - every updated instruction block matches the source template
-   - content outside the markers is unchanged
-   - unrelated skills and project files are unchanged
-   - `docs/agent-policy.md` and a usable `.agents/pmd-runtime.md` exist; if either is missing, report the installation as incomplete and recommend `pmd-setup` without creating project configuration during update
-10. Report:
-   - the source path, version, or Git commit used
-   - PMD skills added, updated, removed, or deliberately retained
-   - instruction files whose PMD blocks were updated
-   - conflicts, local modifications, or malformed markers left unresolved
-11. Recommend restarting the agent or starting a new session so it reloads the updated skills and instructions.
+1. Confirm PMD is already installed from existing PMD skills or a complete instruction block. Otherwise recommend `pmd-setup`.
+2. Resolve and validate the update source.
+3. Inspect PMD-managed files for incomplete or duplicate markers and uncommitted changes. Stop and ask how to resolve malformed markers.
+4. Show PMD-managed files with detected local changes that replacement or deletion would discard and ask for confirmation. When version control cannot distinguish a committed customization from an ordinary older distribution version, explain that limitation and ask before overwriting a divergent file.
+5. Stage the complete skill-directory replacement when possible, then:
+   - add skills introduced by the source
+   - replace installed skills present in the source as complete directories so removed upstream files do not remain
+   - preserve non-PMD skills
+   - remove obsolete managed `pmd-plan` and `pmd-worker` directories when they have no detected customization
+   - when either obsolete directory has detected customization, show it and request explicit deletion approval; if approval is withheld, retain it and report the update as incomplete
+   - for any other installed `pmd-*` skill absent from the source, report it and ask before deletion
+6. In every root instruction file already containing one complete PMD block, replace exactly that range with the source block. Do not add PMD to another instruction file.
+7. Do not create, edit, move, or delete anything under `docs/`.
+8. Inspect `.agents/pmd-runtime.md` and `.opencode/agents/`. When they use bundled Planner/Worker names or the user requests the bundled OpenCode runtime, offer to synchronize them with the source assets under `pmd-setup/assets/opencode/`.
+9. If bundled runtime synchronization is accepted:
+   - compare every current target with the new bundled file and show material differences
+   - preserve exact approved model identifiers and variants while updating role content and mappings
+   - ask before overwriting any detected or uncertain local customization
+   - install current Coordinator, simple Builder, complex Builder, Reviewer, and runtime files
+   - remove obsolete bundled `pmd-planner.md`, `pmd-worker-simple.md`, `pmd-worker-complex.md`, and `pmd-worker.md` after the replacements are ready
+   - if an obsolete agent has detected customization, request explicit deletion approval; if withheld, retain it and report runtime synchronization as incomplete
+   - preserve unrelated OpenCode agents and settings
+10. Verify that source PMD skill directories match installed copies; updated instruction blocks match the source; outside-marker content and unrelated files are unchanged; and no unapproved customization was overwritten.
+11. When bundled runtime synchronization was accepted, also verify that Builder mappings and agents are usable, exactly one Reviewer exists, obsolete bundled Planner/Worker assets are absent unless explicitly retained, and the OpenCode default remains `pmd-coordinator`.
+12. Report the source path/version/commit; skills added, updated, removed, or retained; instruction blocks updated; runtime files synchronized or preserved; and every unresolved conflict.
+13. Confirm that `docs/agent-policy.md` and a usable `.agents/pmd-runtime.md` exist. If either is missing or still maps removed roles, report installation as incomplete and recommend `pmd-setup` without creating or changing project configuration.
+14. Recommend restarting the agent or starting a new session.
 
 ## Safety
 
-An update request authorizes replacing PMD-managed files with the selected distribution, but not discarding detected uncommitted customizations or deleting PMD-prefixed skills absent from the source. Ask before either protected action.
+An update request authorizes replacing uncustomized PMD-managed distribution files. It does not authorize discarding detected local customizations or replacing project runtime configuration without the runtime confirmation above.
 
-Stage and validate the complete replacement before applying it when possible. If an update fails partway through, restore the prior PMD-managed files when they were backed up safely; otherwise stop and report the exact partial state rather than attempting speculative repairs.
+If application fails partway through, restore safely backed-up managed files when possible; otherwise stop and report the exact partial state rather than attempting speculative repairs.

@@ -1,6 +1,6 @@
 # Plain Markdown Development
 
-A lightweight, multi-agent workflow that balances human control over product decisions with agent autonomy in planning, implementation, and review. Markdown documents decisions and tracks project state.
+A lightweight, multi-agent workflow that balances human control over product decisions with agent autonomy in coordination, implementation, and review. A Coordinator guides each task, a tiered Builder implements it, and an independent Reviewer checks the result.
 
 ## Installation
 
@@ -16,21 +16,19 @@ Setup:
 
 - creates the PMD documentation workspace
 - installs repository instructions while preserving existing content
-- configures the agent roles, runtime, and role-specific models
+- configures the agent policy, runtime, and role-specific models
 
-OpenCode users can install the bundled reference runtime during setup. It separates fast, economical work from complex work, guides the user through selecting models for four strength tiers before confirming the role mapping, and configures `pmd-coordinator` as the project's default agent.
+OpenCode users can install the bundled reference runtime, which defines the required PMD agents.
 
-## Quick Start
+## Quick start
 
-Add lightweight product requirements to `docs/prd/`. They do not need to be large or complete PRDs—simple high-level notes about users, desired behaviour, and constraints are enough. You can think of them as **product briefs**.
-
-Then send:
+Add lightweight product requirements to `docs/prd/`. They can be brief notes about users, desired behaviour, and constraints rather than large formal documents. Then send:
 
 ```text
 pmd-coordinate
 ```
 
-Coordinator takes it from there, invoking the other workflow skills internally.
+Coordinator takes it from there and invokes the other workflow skills internally.
 
 ## How coordination works
 
@@ -38,21 +36,22 @@ Coordinator takes it from there, invoking the other workflow skills internally.
 You
  │
  ▼
-Coordinator
- │
- └─ Planner → Worker (simple / complex) → Reviewer → Approval → Archive
-      ▲                                                          │
-      └────────────────── next iteration ────────────────────────┘
+Coordinator ──→ Builder (simple or complex) ──→ Reviewer ──→ Approval ──→ Archive
+    ▲                                                                      │
+    └──────────────────────────── next task ───────────────────────────────┘
 ```
 
-**Coordinator** is the single user-facing role. **Planner** turns selected requirements into an execution plan, **Worker** implements it, and **Reviewer** independently checks the result and looks for simplifications.
+One PMD task is deliberately small enough for one Builder context. It has one coherent outcome, one Builder tier, one complete-diff review, one completion approval, and one final commit.
 
-Key properties:
+- **Coordinator** creates and prioritizes tasks, chooses a Builder tier, owns durable workflow state, leads user validation, and handles approval and completion.
+- **Builder** plans, implements, tests, and directly validates the whole task in one context. It never stages files or creates commits.
+- **Reviewer** independently checks correctness, validation, scope, maintainability, and looks for possible simplifications without modifying files.
 
-- **Coordinator** advances automatically and pauses only for required decisions, manual validation, or explicit approval.
-- The project **agent policy** defines who may make which decisions.
-- **Markdown and Git** provide durable state without a custom orchestration service.
-- **Runtime configuration** maps each role to an agent or CLI; the **provider and model** behind it remain configurable. The bundled OpenCode runtime uses a fast Worker for simple groups, a stronger Worker for complex groups, and one Reviewer.
+## Quality and approval
+
+Every task is independently reviewed and, when needed, validated by the user. The Coordinator asks for explicit approval before updating the changelog, archiving the task, and creating its final commit.
+
+Spec changes also require explicit approval. Project-specific decision boundaries live in `docs/agent-policy.md`.
 
 ## Updating
 
@@ -62,22 +61,20 @@ For an existing installation, send:
 pmd-update
 ```
 
+The updater replaces PMD-owned skills and instruction blocks while preserving project documentation and detected local customizations. It can also synchronize an accepted bundled OpenCode runtime from the former Planner/Worker agent names to Builder agents.
+
 ## Structure
 
 ```text
 docs/
-├── agent-policy.md  # who may make which project decisions
+├── agent-policy.md  # project decision boundaries
 ├── prd/             # product intent: users, problems, goals, constraints
 ├── specs/           # precise expected behaviour of individual capabilities
-├── tasks/           # executable iteration plans and delivery progress
-│   ├── current/      # planned or in-progress iterations
-│   └── archived/     # approved, completed iterations
-├── inbox.md          # loose ideas, bugs, and questions
-└── changelog.md      # delivered user-visible changes
+├── tasks/
+│   ├── current/     # open or awaiting-approval tasks
+│   └── archived/    # approved, completed tasks
+├── inbox.md         # loose ideas, bugs, and questions
+└── changelog.md     # delivered user-visible outcomes
 ```
 
-A PRD is a lightweight product brief: it explains what should be achieved and why. A spec narrows one capability into exact expected behaviour. An iteration selects concrete work from those sources and tracks it through delivery.
-
-During planning, the agent drafts needed specs from PRDs, repository context, and discussion with you. You approve every spec before it is saved.
-
-Small bugs, maintenance work, and technical tasks can go directly into an iteration without dedicated PRDs.
+Small bugs, maintenance work, and technical tasks can become tasks directly without dedicated PRDs or specs when they do not change intended product behaviour.

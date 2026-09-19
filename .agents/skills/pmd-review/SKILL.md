@@ -1,55 +1,51 @@
 ---
 name: pmd-review
-description: Independently review one execution group or a completed PMD iteration for correctness, validation, scope, and simplification. Use when Coordinator requests review; report findings without implementing fixes by default.
+description: Independently review one complete PMD task diff for correctness, validation, scope, maintainability, and simplification. Use when Coordinator requests review; remain read-only and report findings without implementing fixes.
 ---
 
-# Review implementation
+# Review one PMD task
 
-Act as the independent Reviewer after a Worker has completed direct validation. Review either the assigned execution group or, when explicitly requested, the whole iteration.
+Act as the independent Reviewer after Builder has completed the task and direct validation. One review boundary covers the task's complete implementation diff; there are no group-level or additional whole-task review modes.
 
 ## Required context
 
 Before deciding an outcome:
 
-1. Read the current iteration, the assigned execution group and task IDs, its dependencies, acceptance criteria, and planned manual validation.
-2. Read relevant specs, PRDs, repository instructions, Planner guidance, and required `docs/agent-policy.md`. If the policy is missing, report `DECISION_REQUIRED` to Coordinator rather than reviewing under implicit boundaries.
-3. Inspect the complete implementation diff for the review boundary, including tests and documentation. Do not review only the Worker's summary.
-4. Consider relevant surrounding code needed to identify regressions, unnecessary complexity, or missing coverage.
+1. Read the complete task, including outcome, acceptance, sources, dependencies, Builder tier, Plan, Validation, and manual-validation intent.
+2. Read relevant specs, PRDs, repository instructions, `docs/agent-policy.md`, and surrounding implementation needed to assess regressions and scope.
+3. Inspect the complete task diff, including implementation, tests, documentation, and the task file. Do not review only Builder's summary.
+4. Confirm that the diff boundary is isolated and that task dependencies are completed.
 
-If the diff boundary is ambiguous or unrelated changes prevent a reliable review, do not infer correctness; report the problem to Coordinator.
+If policy is missing, the diff boundary is ambiguous, intended behaviour requires a protected decision, or the task cannot be reviewed confidently as one unit, return `DECISION_REQUIRED` rather than inferring correctness.
 
 ## Review dimensions
 
 Evaluate every applicable dimension:
 
-- **Correctness:** requested behaviour, acceptance criteria, dependencies, edge cases, and regressions.
-- **Tests and validation:** relevance and adequacy of automated coverage and direct checks; identify missing or misleading validation.
-- **Scope and specification:** conformance to the execution group, iteration, specs, PRDs, and protected-decision rules; identify scope expansion or behaviour changes.
+- **Correctness:** outcome, acceptance, edge cases, dependencies, and regressions.
+- **Tests and validation:** relevance and adequacy of automated coverage and direct checks; identify missing or misleading evidence.
+- **Scope and specification:** conformance to the task, specs, PRDs, and protected-decision rules; identify scope expansion or behaviour changes.
 - **Maintainability:** clarity, consistency with the codebase, and avoidable future risk.
 - **Simplification:** explicitly inspect for duplication, unnecessary abstraction or indirection, overengineering, unrealistic defensive handling, and a materially smaller or clearer design.
-- **Manual validation:** verify that the planned steps still exercise the relevant behaviour and that the implementation is ready for Coordinator-led testing.
+- **Manual validation:** determine whether proposed user-run steps still exercise the relevant behaviour and whether the task is ready for them.
 
-The simplification review is mandatory on every pass. State explicitly when no meaningful simplification is available rather than omitting the dimension.
+The simplification review is mandatory. State explicitly when no meaningful simplification is available. Require changes only when their concrete benefit justifies implementation, validation, and re-review cost. Omit subjective style preferences, marginal alternatives, speculative issues without a plausible failure path, unrelated cleanup, and non-actionable nits.
 
-Keep findings proportional. For every proposed change, weigh its concrete benefit against implementation, validation, and re-review cost. Require changes only when they materially improve correctness, scope compliance, risk, maintainability, or simplicity. Do not report subjective style preferences, marginal alternatives, speculative problems without a plausible failure path, or unrelated cleanup as findings. Omit non-actionable nits entirely.
-
-## Outcome rules
+## Outcomes
 
 Return exactly one outcome:
 
-- `PASS` — implementation is correct, in scope, adequately validated, has no unresolved simplification issue, and is ready for planned manual validation when required.
-- `CHANGES_REQUIRED` — Worker can resolve one or more material findings without changing approved behaviour, expanding scope, or making a protected decision.
-- `DECISION_REQUIRED` — a material issue requires replanning, a product/specification decision, or another decision protected by PMD rules or `docs/agent-policy.md`.
+- `PASS` — the complete task is correct, in scope, adequately validated, has no unresolved simplification issue, and is ready for any manual validation.
+- `CHANGES_REQUIRED` — Builder can resolve material findings without changing approved behaviour, scope, tier, or another protected decision.
+- `DECISION_REQUIRED` — resolution requires a protected decision, tier change, task split, or task-scope change.
 
-For `CHANGES_REQUIRED`, provide concrete, prioritized, actionable findings and return them through Coordinator for another Worker pass. Review the resulting complete diff again; do not assume that a narrow correction introduced no regressions.
+For `CHANGES_REQUIRED`, provide concrete, prioritized findings through Coordinator. Review the complete resulting diff again after Builder performs corrections and fresh direct validation.
 
-For `DECISION_REQUIRED`, explain the decision and why it cannot be safely resolved as an implementation correction. Coordinator decides whether to route it to Planner or the user.
-
-Reviewer is non-implementing by default. Do not edit code, tests, iteration state, specs, changelog, or archive state unless the user explicitly leaves the coordinated review workflow and asks for a separate implementation task.
+Reviewer is strictly read-only. Do not edit implementation, tests, task state, specs, changelog, or archive state. Do not contact the user.
 
 ## Result contract
 
-The response must semantically include:
+Semantically include:
 
 ```text
 Outcome:
@@ -71,10 +67,10 @@ Manual validation:
 <readiness and any needed corrections>
 
 Required changes:
-<actionable changes when applicable, otherwise none>
+<actionable changes, or none>
 
 Decision needed:
-<decision when applicable, otherwise none>
+<decision, or none>
 ```
 
-Do not mark iteration tasks complete or treat a prior review result as a substitute for Coordinator-led gates or the independent readiness review performed by `pmd-complete`.
+A `PASS` is implementation-review evidence, not task-completion approval. Do not change Review or Status; Coordinator owns those fields.
