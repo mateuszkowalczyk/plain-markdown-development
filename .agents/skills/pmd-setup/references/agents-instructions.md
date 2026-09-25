@@ -101,7 +101,7 @@ Coordinator sets `Awaiting approval` only after:
 
 Corrections return to the same Builder context and tier when possible, followed by fresh validation and another complete-diff review. A task that needs another tier or is too large returns to Coordinator for reassignment or splitting.
 
-After Reviewer `PASS`, the task path, title, tier, Sources, Depends on, Outcome, Acceptance, Plan, Validation, and the complete reviewed implementation diff must remain unchanged. Only Coordinator gate-recording updates to Review, Manual validation, and Status are exempt; any other change requires fresh review.
+After Reviewer `PASS`, Coordinator records an auditable baseline covering the entire reviewed diff and task contract, including all reviewed files and initially untracked changes. The task path, title, tier, Sources, Depends on, Outcome, Acceptance, Plan, Validation, and the entire reviewed diff must remain unchanged. Only Coordinator gate-recording updates to Review, Manual validation, and Status are exempt; any other task-owned change requires fresh review. If the baseline cannot establish this at completion, obtain a fresh review.
 
 Completion has a separate approval gate. `pmd-complete` Stage 1 verifies integrity and readiness without repeating implementation review, presents a fresh report, and explicitly asks whether to complete and archive the task. General consent to continue or Reviewer `PASS` is not archive approval.
 

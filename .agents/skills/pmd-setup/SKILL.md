@@ -21,8 +21,8 @@ When the project uses OpenCode, read and follow [references/opencode-setup.md](r
 
 ## Procedure
 
-1. Inspect the repository structure and existing root `AGENTS.md` and `CLAUDE.md` files.
-2. For a new installation, ask whether to install PMD instructions in `AGENTS.md`, `CLAUDE.md`, or both. Do not edit either file before the user chooses. When PMD is already installed and only configuration is incomplete, preserve the existing selection.
+1. Inspect the repository structure and root `AGENTS.md`.
+2. Before editing, stop and ask about an unmatched or duplicate PMD marker in root `AGENTS.md`. Preserve and explain overlapping documentation or requirement directories, and ask before moving or renaming their content.
 3. Create missing directories:
 
 ```text
@@ -33,16 +33,14 @@ docs/tasks/archived/
 ```
 
 4. Create missing `docs/inbox.md` from `references/inbox.md` and missing `docs/changelog.md` containing `# Changelog`.
-5. Install instructions in each selected file:
+5. Install instructions in root `AGENTS.md`, including when other PMD components already exist but that block is missing:
    - create a missing file with the complete marked block
    - append the block when a file has neither marker
    - when both markers exist, preserve the block, report PMD as already installed there, and recommend `pmd-update` for distribution updates
-   - preserve everything outside the markers, never duplicate the block, and leave every unselected instruction file unchanged
-6. When an unselected instruction file contains a complete PMD block, preserve it and report it as potentially stale or intentionally shared. This is informational, not a conflict.
-7. Stop and ask before editing a selected file with one unmatched marker. Also preserve and explain overlapping documentation or requirement directories, and ask before moving or renaming their content.
-8. Configure the required policy and runtime below.
-9. Report created files and directories, instruction-file selection and block state, preserved unselected blocks, policy/runtime/provider files created or preserved, configuration completeness, and unresolved conflicts.
-10. Recommend restarting the agent or starting a new session, adding a brief product description under `docs/prd/`, and sending `pmd-coordinate`.
+   - preserve everything outside the markers and never duplicate the block
+6. Configure the required policy and runtime below.
+7. Report created files and directories, the `AGENTS.md` block state, policy/runtime/provider files created or preserved, configuration completeness, and unresolved conflicts.
+8. Recommend restarting the agent or starting a new session, adding a brief product description under `docs/prd/`, and sending `pmd-coordinate`.
 
 Do not create product requirements, specs, task files, or changelog entries unless explicitly asked. Do not add other orchestration directories to the minimal `docs/` structure.
 

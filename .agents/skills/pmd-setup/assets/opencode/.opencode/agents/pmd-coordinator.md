@@ -37,13 +37,25 @@ permissions:
     resource: "*"
     effect: ask
   - action: shell
-    resource: "git status*"
+    resource: "git status *"
     effect: allow
   - action: shell
-    resource: "git diff*"
+    resource: "git diff *"
     effect: allow
   - action: shell
-    resource: "git log*"
+    resource: "git log *"
+    effect: allow
+  - action: shell
+    resource: "git rev-parse *"
+    effect: allow
+  - action: shell
+    resource: "git ls-files *"
+    effect: allow
+  - action: shell
+    resource: "git show *"
+    effect: allow
+  - action: shell
+    resource: "git mv *"
     effect: allow
   - action: shell
     resource: "git add *"
@@ -64,4 +76,4 @@ Use one task file and one review boundary. Never create nested task checkboxes o
 
 After review and manual validation pass, set `Awaiting approval` and automatically follow `pmd-complete` Stage 1. Ask for archive approval only after its readiness report. Changelog, archive, and final-commit changes are permitted only during approved Stage 2, whose final mutation is the task commit.
 
-After completion, continue with another clearly prioritized task or create the next clear task. Ask only for approval, a protected decision, an ambiguous choice, or a manual-validation result.
+After completion, continue with another clearly prioritized task or create the next clear task. PMD decision requests are only for approval, a protected decision, an ambiguous choice, or a manual-validation result; OpenCode may separately prompt for permission to run non-allowlisted commands.

@@ -12,9 +12,9 @@ Synchronize an existing installation with a trusted PMD source without changing 
 The core update may change only:
 
 - PMD-owned directories matching `.agents/skills/pmd-*`
-- complete PMD instruction blocks between `<!-- PMD:START -->` and `<!-- PMD:END -->` in root `AGENTS.md` and `CLAUDE.md`
+- the complete PMD instruction block between `<!-- PMD:START -->` and `<!-- PMD:END -->` in root `AGENTS.md`
 
-Preserve all content outside the markers, everything under `docs/`, non-PMD skills, and the existing choice of instruction files.
+Preserve all `AGENTS.md` content outside the markers, everything under `docs/`, non-PMD skills, and other instruction files.
 
 `.agents/pmd-runtime.md`, `.opencode/agents/`, and OpenCode configuration are project runtime configuration, not automatically replaced by the core update. Synchronize them with bundled OpenCode assets only through the explicitly accepted runtime step below.
 
@@ -37,9 +37,9 @@ Stop without modification if validation fails.
 
 ## Procedure
 
-1. Confirm PMD is already installed from existing PMD skills or a complete instruction block. Otherwise recommend `pmd-setup`.
+1. Confirm PMD is already installed from existing PMD skills or a complete root `AGENTS.md` instruction block. Otherwise recommend `pmd-setup`.
 2. Resolve and validate the update source.
-3. Inspect PMD-managed files for incomplete or duplicate markers and uncommitted changes. Stop and ask how to resolve malformed markers.
+3. Inspect PMD-managed files for incomplete or duplicate markers and uncommitted changes. Stop and ask how to resolve malformed markers in root `AGENTS.md`.
 4. Show PMD-managed files with detected local changes that replacement or deletion would discard and ask for confirmation. When version control cannot distinguish a committed customization from an ordinary older distribution version, explain that limitation and ask before overwriting a divergent file.
 5. Stage the complete skill-directory replacement when possible, then:
    - add skills introduced by the source
@@ -48,7 +48,7 @@ Stop without modification if validation fails.
    - remove obsolete managed `pmd-plan` and `pmd-worker` directories when they have no detected customization
    - when either obsolete directory has detected customization, show it and request explicit deletion approval; if approval is withheld, retain it and report the update as incomplete
    - for any other installed `pmd-*` skill absent from the source, report it and ask before deletion
-6. In every root instruction file already containing one complete PMD block, replace exactly that range with the source block. Do not add PMD to another instruction file.
+6. If root `AGENTS.md` contains one complete PMD block, replace exactly that range with the source block. If it has no PMD block, leave it unchanged, report the installation as incomplete, and recommend `pmd-setup` to install the block.
 7. Do not create, edit, move, or delete anything under `docs/`.
 8. Inspect `.agents/pmd-runtime.md` and `.opencode/agents/`. When they use bundled Planner/Worker names or the user requests the bundled OpenCode runtime, offer to synchronize them with the source assets under `pmd-setup/assets/opencode/`.
 9. If bundled runtime synchronization is accepted:
@@ -59,10 +59,10 @@ Stop without modification if validation fails.
    - remove obsolete bundled `pmd-planner.md`, `pmd-worker-simple.md`, `pmd-worker-complex.md`, and `pmd-worker.md` after the replacements are ready
    - if an obsolete agent has detected customization, request explicit deletion approval; if withheld, retain it and report runtime synchronization as incomplete
    - preserve unrelated OpenCode agents and settings
-10. Verify that source PMD skill directories match installed copies; updated instruction blocks match the source; outside-marker content and unrelated files are unchanged; and no unapproved customization was overwritten.
+10. Verify that source PMD skill directories match installed copies; any updated `AGENTS.md` block matches the source; outside-marker content and unrelated files are unchanged; and no unapproved customization was overwritten.
 11. When bundled runtime synchronization was accepted, also verify that Builder mappings and agents are usable, exactly one Reviewer exists, obsolete bundled Planner/Worker assets are absent unless explicitly retained, and the OpenCode default remains `pmd-coordinator`.
-12. Report the source path/version/commit; skills added, updated, removed, or retained; instruction blocks updated; runtime files synchronized or preserved; and every unresolved conflict.
-13. Confirm that `docs/agent-policy.md` and a usable `.agents/pmd-runtime.md` exist. If either is missing or still maps removed roles, report installation as incomplete and recommend `pmd-setup` without creating or changing project configuration.
+12. Report the source path/version/commit; skills added, updated, removed, or retained; whether the `AGENTS.md` block was updated; runtime files synchronized or preserved; and every unresolved conflict.
+13. Confirm that the root `AGENTS.md` block, `docs/agent-policy.md`, and a usable `.agents/pmd-runtime.md` exist. If any is missing or the runtime still maps removed roles, report installation as incomplete and recommend `pmd-setup` without creating or changing project configuration.
 14. Recommend restarting the agent or starting a new session.
 
 ## Safety

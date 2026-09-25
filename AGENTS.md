@@ -7,7 +7,7 @@
 
 ## Sources of truth
 
-- `.agents/skills/pmd-setup/references/agents-instructions.md` is the complete marked block installed into a consumer repository's selected `AGENTS.md` or `CLAUDE.md`. Keep both `<!-- PMD:START -->` and `<!-- PMD:END -->`; setup replaces exactly that range and preserves everything outside it.
+- `.agents/skills/pmd-setup/references/agents-instructions.md` is the complete marked block installed into a consumer repository's root `AGENTS.md`. Keep both `<!-- PMD:START -->` and `<!-- PMD:END -->`; updates replace exactly that range and preserve everything outside it.
 - Each `.agents/skills/*/SKILL.md` owns its procedure and trigger description. Keep the frontmatter `name` identical to its lowercase, hyphen-separated skill directory name.
 - `.agents/skills/pmd-setup/assets/opencode/` is the source of truth for installable OpenCode configuration.
 - `README.md` is the user-facing installation and quick-start overview. Update it when installation steps, skill names, or the documented workflow change.
@@ -19,8 +19,8 @@
 - Every task uses the single schema defined by PMD instructions. Builder may update only its `Plan` and `Validation` sections and must not stage files or create commits; Coordinator owns scope, tier, status, review state, manual-validation state, and lifecycle. Reviewer is read-only.
 - Any spec file change requires explicit user approval.
 - Coordinator may set `Awaiting approval` after implementation, review, and any manual-validation gates pass, but must not update the changelog, archive a task, or mark it `Completed` outside approved `pmd-complete` Stage 2.
-- Completion is two-stage: Stage 1 checks integrity and readiness without repeating implementation review, including that all reviewed contract fields and the complete reviewed diff remain unchanged except Coordinator gate records in Review, Manual validation, and Status. Only explicit approval permits the changelog update, `Completed` status, archival, staging, and the task's one final commit; `pmd-complete` Stage 2 creates that commit as its last repository mutation.
-- Setup must be idempotent: preserve existing files and all selected instruction-file content outside the PMD markers, support installation in `AGENTS.md`, `CLAUDE.md`, or both, leave any unselected instruction file unchanged, report a complete PMD block there as potentially stale or intentionally shared, never duplicate the block, and ask before handling a single unmatched marker or overlapping documentation layout.
+- Completion is two-stage: Stage 1 checks integrity and readiness without repeating implementation review, including that all reviewed contract fields and the entire reviewed diff remain unchanged except Coordinator gate records in Review, Manual validation, and Status. Only explicit approval permits the changelog update, `Completed` status, archival, staging, and the task's one final commit; `pmd-complete` Stage 2 creates that commit as its last repository mutation.
+- Setup must be idempotent: preserve existing files and all root `AGENTS.md` content outside the PMD markers, never duplicate the block, and ask before handling a single unmatched marker or overlapping documentation layout. Other instruction files are outside PMD's managed scope.
 
 ## Coordination invariants
 
@@ -31,7 +31,7 @@
 - Builder plans, implements, and directly validates the whole task in one context. It never changes task scope, tier, status, review state, or lifecycle state and does not perform the separate PMD simplification review.
 - PMD uses one Reviewer role. Reviewer owns correctness, scope, validation, maintainability, and the mandatory simplification review, requires only materially beneficial corrections, omits non-actionable nits, and never implements fixes.
 - Every task receives exactly one review boundary covering its complete diff. Corrections return to the same Builder context and tier when possible, followed by fresh direct validation and review.
-- Coordinator is the normal interface to the user throughout the coordinated project loop. Builders and Reviewers return protected decisions, blockers, and manual-validation information to Coordinator instead of contacting the user directly. Coordinator advances through task creation, execution, review, readiness review, completion, and the next task without requiring the user to name skills or approve procedural handoffs. It pauses only for approvals, protected decisions, ambiguous choices, or user-run validation, using an available question tool or a concise short-answer prompt.
+- Coordinator is the normal interface to the user throughout the coordinated project loop. Builders and Reviewers return protected decisions, blockers, and manual-validation information to Coordinator instead of contacting the user directly. Coordinator advances through task creation, execution, review, readiness review, completion, and the next task without requiring the user to name skills or approve procedural handoffs. PMD decision pauses are for approvals, protected decisions, ambiguous choices, or user-run validation; the runtime may separately request permission for non-allowlisted tools.
 - Markdown and Git remain the durable workflow state. PMD must not require a database, message queue, daemon, background worker system, or other custom orchestration service.
 
 ## Verification

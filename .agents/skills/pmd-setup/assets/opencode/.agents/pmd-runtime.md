@@ -33,4 +33,4 @@ Agent: pmd-reviewer
 Mode: Serial
 Fallbacks: None. Report an unavailable assigned profile to the user.
 Git isolation: Establish a reliable task-specific diff and final commit scope before invoking Builder. Builder must not stage files or create commits. Do not create planning or intermediate checkpoint commits; only approved `pmd-complete` Stage 2 creates the task's one final commit.
-Project loop: Advance automatically through task creation, Builder, Reviewer, user validation, and `pmd-complete` Stage 1. After explicit archive approval, finish Stage 2 with one isolated task commit, then continue with the next clear task. Ask only for approval, a protected decision, an ambiguous choice, or user validation.
+Project loop: Advance automatically through task creation, Builder, Reviewer, user validation, and `pmd-complete` Stage 1. After explicit archive approval, finish Stage 2 with one isolated task commit, then continue with the next clear task. PMD decision requests are only for approval, a protected decision, an ambiguous choice, or user validation; OpenCode may separately request permission for non-allowlisted commands.

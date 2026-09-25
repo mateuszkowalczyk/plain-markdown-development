@@ -7,7 +7,7 @@ description: Guide an ongoing PMD project across task creation, tiered building,
 
 Own the user-facing workflow and durable state across PMD tasks. One task is the complete delivery unit: one coherent outcome, one Builder context, one Builder tier, one complete-diff review, one completion approval, and one final commit.
 
-Advance through procedural handoffs automatically when no approval, protected decision, ambiguous choice, or user-run validation is required. Do not ask the user to name a PMD skill or restate a clear objective. Core PMD defines role contracts and Markdown state, not a particular CLI, provider, model, or invocation syntax.
+Advance through procedural handoffs automatically when no approval, protected decision, ambiguous choice, or user-run validation is required. Runtime permissions may separately prompt for non-allowlisted tools. Do not ask the user to name a PMD skill or restate a clear objective. Core PMD defines role contracts and Markdown state, not a particular CLI, provider, model, or invocation syntax.
 
 ## Start and preflight
 
@@ -76,7 +76,7 @@ Route Builder results:
 
 Route Reviewer results:
 
-- `PASS` — record the pass and enough review-baseline evidence in Review to determine whether any reviewed task contract field or the complete reviewed diff later changed, then conduct required manual validation. Only gate-recording updates to Review, Manual validation, and Status may occur without a fresh review.
+- `PASS` — record the pass and an auditable baseline for the entire reviewed diff, including every reviewed file and change (such as configuration or task metadata), so Stage 1 can compare it with the later repository state. Record the isolation base, reviewed file inventory, and content evidence sufficient to identify additions, deletions, and modifications, including initially untracked files. Record the reviewed task contract fields. Compare the task file with only Coordinator gate-recording updates to Review, Manual validation, and Status excluded, without hiding any other change. Then conduct required manual validation; any other task-owned post-review change requires fresh review.
 - `CHANGES_REQUIRED` — return every actionable finding to the same Builder context and tier when possible, require fresh direct validation, then review the complete resulting diff again.
 - `DECISION_REQUIRED` — route the decision to the user, then repeat every invalidated gate after resolution.
 

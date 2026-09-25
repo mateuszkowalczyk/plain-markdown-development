@@ -15,7 +15,7 @@ After setup, restart the agent or start a new session so it reloads the applicab
 Setup:
 
 - creates the PMD documentation workspace
-- installs repository instructions while preserving existing content
+- installs the PMD instruction block in root `AGENTS.md` while preserving existing content
 - configures the agent policy, runtime, and role-specific models
 
 OpenCode users can install the bundled reference runtime, which defines the required PMD agents.
@@ -28,7 +28,7 @@ Add lightweight product requirements to `docs/prd/`. They can be brief notes abo
 pmd-coordinate
 ```
 
-Coordinator takes it from there and invokes the other workflow skills internally.
+Coordinator takes it from there and invokes the other workflow skills internally. Your runtime may separately request permission for commands outside its routine allowlist.
 
 ## How coordination works
 
@@ -61,7 +61,7 @@ For an existing installation, send:
 pmd-update
 ```
 
-The updater replaces PMD-owned skills and instruction blocks while preserving project documentation and detected local customizations. It can also synchronize an accepted bundled OpenCode runtime from the former Planner/Worker agent names to Builder agents.
+The updater replaces PMD-owned skills and the PMD block in root `AGENTS.md` while preserving project documentation and detected local customizations. It can also synchronize an accepted bundled OpenCode runtime from the former Planner/Worker agent names to Builder agents.
 
 ## Structure
 
