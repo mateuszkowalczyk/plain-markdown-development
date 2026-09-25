@@ -1,7 +1,6 @@
 ---
 description: Plans, implements, and directly validates one complex PMD task
 mode: subagent
-steps: 80
 permissions:
   - action: subagent
     resource: "*"

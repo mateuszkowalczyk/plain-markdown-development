@@ -1,7 +1,6 @@
 ---
 description: Independently reviews one complete PMD task diff without modifying files
 mode: subagent
-steps: 40
 permissions:
   - action: "*"
     resource: "*"

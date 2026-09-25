@@ -18,7 +18,7 @@ Setup:
 - installs the PMD instruction block in root `AGENTS.md` while preserving existing content
 - configures the agent policy, runtime, and role-specific models
 
-OpenCode users can install the bundled reference runtime, which defines the required PMD agents.
+OpenCode V2 users can install the bundled reference runtime, which defines the required PMD agents. Setup uses models available in your project and asks you to confirm the model for each role. Start a new OpenCode session after setup to verify that `pmd-coordinator` and its configured model are selected.
 
 ## Quick start
 

@@ -1,7 +1,6 @@
 ---
 description: Guides PMD across task creation, tiered building, review, approval, archival, and subsequent tasks
 mode: primary
-steps: 80
 permissions:
   - action: edit
     resource: "*"
