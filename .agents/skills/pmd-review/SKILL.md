@@ -13,7 +13,7 @@ Before deciding an outcome:
 
 1. Read the complete task, including outcome, acceptance, sources, dependencies, Builder tier, Plan, Validation, and manual-validation intent.
 2. Read relevant specs, PRDs, repository instructions, `docs/agent-policy.md`, and surrounding implementation needed to assess regressions and scope.
-3. Inspect the complete task diff, including implementation, tests, documentation, and the task file. Do not review only Builder's summary.
+3. Inspect the complete task diff, including implementation, tests, documentation, and the task file. Do not review only Builder's summary. Run additional read-only inspection or relevant tests when they materially help verify the work; use scratch scripts outside the repository if necessary. If the runtime asks for permission, route an unresolved permission or validation blocker through Coordinator rather than contacting the user directly.
 4. Confirm that the diff boundary is isolated and that task dependencies are completed.
 
 If policy is missing, the diff boundary is ambiguous, intended behaviour requires a protected decision, or the task cannot be reviewed confidently as one unit, return `DECISION_REQUIRED` rather than inferring correctness.
@@ -41,7 +41,7 @@ Return exactly one outcome:
 
 For `CHANGES_REQUIRED`, provide concrete, prioritized findings through Coordinator. Review the complete resulting diff again after Builder performs corrections and fresh direct validation.
 
-Reviewer is strictly read-only. Do not edit implementation, tests, task state, specs, changelog, or archive state. Do not contact the user.
+Reviewer is read-only with respect to the repository and Git state. Scratch scripts outside the repository are allowed when the runtime permits them. Do not edit implementation, tests, task state, specs, changelog, or archive state; do not stage, commit, push, or change branches or refs. If a test changes task-owned files, report them so Coordinator can restore a reliable review boundary and request fresh review. Do not contact the user.
 
 ## Result contract
 

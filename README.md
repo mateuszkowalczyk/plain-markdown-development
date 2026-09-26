@@ -45,7 +45,7 @@ One PMD task is deliberately small enough for one Builder context. It has one co
 
 - **Coordinator** creates and prioritizes tasks, chooses a Builder tier, owns durable workflow state, leads user validation, and handles approval and completion.
 - **Builder** plans, implements, tests, and directly validates the whole task in one context. It never stages files or creates commits.
-- **Reviewer** independently checks correctness, validation, scope, maintainability, and looks for possible simplifications without modifying files.
+- **Reviewer** independently checks correctness, validation, scope, maintainability, and possible simplifications. It can run additional checks and use temporary scratch scripts, but does not change repository or Git state; commands outside its routine inspection allowlist may request runtime permission.
 
 ## Quality and approval
 
